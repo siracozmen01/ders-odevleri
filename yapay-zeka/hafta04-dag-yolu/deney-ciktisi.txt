@@ -1,0 +1,108 @@
+# Dag Yolu - experiment output
+Unity 6000.6.8f1, grid 128 x 128, cell 1 m, s_max = 35 deg
+NPC start cell (12, 60) (slope 18.9 deg), flag cell (115, 66) (slope 19.0 deg)
+Straight-line distance start-goal: 103.2 m (octile 105.5 m)
+Slope histogram (cells): 0-7: 4254, 7-14: 6331, 14-21: 2473, 21-28: 520, 28-35: 348, > 35 (impassable): 2458
+SlopeCost check: s = 20, s_max = 35, k = 4 -> 2.306 (diagonal x sqrt2 = 3.261); s = 30, k = 8 -> 6.878; s = 36 -> Infinity
+
+## Deney 1: k = 0, 2, 8 (octile, 8 neighbours, binary heap)  [k = 4 added for reference]
+| k | length 3D (m) | length 2D (m) | max slope (deg) | mean slope (deg) | path cost | expanded | steps |
+|---|---|---|---|---|---|---|---|
+| 0 | 109.4 | 105.5 | 33.4 | 15.5 | 105.49 | 225 | 103 |
+   cost of this k=0 path under k=0/2/4/8: 105.5  159.0  212.6  319.6  | ascent 12.0 m, descent 12.0 m
+| 2 | 109.8 | 106.3 | 30.0 | 12.8 | 146.71 | 3225 | 103 |
+   cost of this k=2 path under k=0/2/4/8: 106.3  146.7  187.1  267.9  | ascent 11.1 m, descent 11.2 m
+| 4 | 109.8 | 106.3 | 30.0 | 12.8 | 187.11 | 6304 | 103 |
+   cost of this k=4 path under k=0/2/4/8: 106.3  146.7  187.1  267.9  | ascent 11.1 m, descent 11.2 m
+| 8 | 169.9 | 168.9 | 19.0 | 6.6 | 231.35 | 9237 | 142 |
+   cost of this k=8 path under k=0/2/4/8: 168.9  184.5  200.1  231.3  | ascent 7.4 m, descent 7.5 m
+
+## Deney 2: k = 4, heuristic comparison (Zero = Dijkstra gives the true cheapest cost)
+k = 4: optimal cost (Dijkstra) = 187.108
+| heuristic | path cost | expanded | steps | length 3D (m) | cheapest? | excess cost |
+|---|---|---|---|---|---|---|
+| Octile | 187.108 | 6304 | 103 | 109.8 | yes | 0 (0.00%) |
+| Manhattan | 187.205 | 4053 | 103 | 109.7 | NO | +0.097 (0.05%) |
+| Euclid | 187.108 | 6986 | 103 | 109.8 | yes | 0 (0.00%) |
+| Zero | 187.108 | 12632 | 103 | 109.8 | yes | 0 (0.00%) |
+
+### Extra: same comparison for k = 0, 2, 8
+k = 0: optimal cost (Dijkstra) = 105.485
+| heuristic | path cost | expanded | steps | length 3D (m) | cheapest? | excess cost |
+|---|---|---|---|---|---|---|
+| Octile | 105.485 | 225 | 103 | 109.4 | yes | 0 (0.00%) |
+| Manhattan | 105.485 | 156 | 103 | 109.2 | yes | 0 (0.00%) |
+| Euclid | 105.485 | 903 | 103 | 109.0 | yes | 0 (0.00%) |
+| Zero | 105.485 | 9976 | 103 | 109.0 | yes | 0 (0.00%) |
+
+k = 2: optimal cost (Dijkstra) = 146.711
+| heuristic | path cost | expanded | steps | length 3D (m) | cheapest? | excess cost |
+|---|---|---|---|---|---|---|
+| Octile | 146.711 | 3225 | 103 | 109.8 | yes | 0 (0.00%) |
+| Manhattan | 146.829 | 2297 | 103 | 109.7 | NO | +0.118 (0.08%) |
+| Euclid | 146.711 | 3826 | 103 | 109.8 | yes | 0 (0.00%) |
+| Zero | 146.711 | 10945 | 103 | 109.8 | yes | 0 (0.00%) |
+
+k = 8: optimal cost (Dijkstra) = 231.348
+| heuristic | path cost | expanded | steps | length 3D (m) | cheapest? | excess cost |
+|---|---|---|---|---|---|---|
+| Octile | 231.348 | 9237 | 142 | 169.9 | yes | 0 (0.00%) |
+| Manhattan | 234.153 | 7264 | 141 | 168.5 | NO | +2.805 (1.21%) |
+| Euclid | 231.348 | 9507 | 142 | 169.9 | yes | 0 (0.00%) |
+| Zero | 231.348 | 12378 | 142 | 169.9 | yes | 0 (0.00%) |
+
+## Admissibility check: h(n) vs exact h*(n) (reverse Dijkstra from the flag over all reachable cells)
+Consistency: an edge n->m is inconsistent if h(n) > c(n,m) + h(m); then a closed node may hold a too-high g (our A* never reopens closed nodes).
+| k | heuristic | reachable cells | cells with h > h* | max h / h* | mean h / h* | inconsistent edges |
+|---|---|---|---|---|---|---|
+| 0 | Octile | 13649 | 0 (0.0%) | 1.000 | 0.967 | 0 / 107048 (0.0%) |
+| 0 | Manhattan | 13649 | 12746 (93.4%) | 1.414 | 1.151 | 13200 / 107048 (12.3%) |
+| 0 | Euclid | 13649 | 0 (0.0%) | 1.000 | 0.916 | 0 / 107048 (0.0%) |
+| 4 | Octile | 13649 | 0 (0.0%) | 0.879 | 0.687 | 0 / 107048 (0.0%) |
+| 4 | Manhattan | 13649 | 1874 (13.7%) | 1.132 | 0.821 | 7961 / 107048 (7.4%) |
+| 4 | Euclid | 13649 | 0 (0.0%) | 0.818 | 0.650 | 0 / 107048 (0.0%) |
+| 8 | Octile | 13649 | 0 (0.0%) | 0.784 | 0.566 | 0 / 107048 (0.0%) |
+| 8 | Manhattan | 13649 | 5 (0.0%) | 1.003 | 0.678 | 4952 / 107048 (4.6%) |
+| 8 | Euclid | 13649 | 0 (0.0%) | 0.726 | 0.536 | 0 / 107048 (0.0%) |
+
+## Bonus: binary heap open list vs List scan (same start/goal, 20 runs each, after 3 warm-up runs)
+| k | search | open list | expanded | steps | path cost | same path | mean ms | min ms |
+|---|---|---|---|---|---|---|---|---|
+| 4 | A* octile | List scan | 6304 | 103 | 187.108 | - | 20.79 | 17.92 |
+| 4 | A* octile | binary heap | 6304 | 103 | 187.108 | yes | 6.03 | 5.13 |
+| 4 | Dijkstra | List scan | 12632 | 103 | 187.108 | - | 37.48 | 34.17 |
+| 4 | Dijkstra | binary heap | 12632 | 103 | 187.108 | yes | 11.59 | 9.90 |
+| 8 | A* octile | List scan | 9237 | 142 | 231.348 | - | 33.32 | 30.18 |
+| 8 | A* octile | binary heap | 9237 | 142 | 231.348 | yes | 8.59 | 7.62 |
+| 8 | Dijkstra | List scan | 12378 | 142 | 231.348 | - | 32.29 | 30.16 |
+| 8 | Dijkstra | binary heap | 12378 | 142 | 231.348 | yes | 10.36 | 9.48 |
+
+## Bonus: path smoothing (cost-aware string pulling). Costs below use the same continuous measure for both paths.
+| k | waypoints raw -> smoothed | length 2D raw -> smoothed (m) | continuous cost raw -> smoothed | change |
+|---|---|---|---|---|
+| 0 | 104 -> 2 | 105.5 -> 103.2 | 105.49 -> 103.17 | length -2.2%, cost -2.2%, 0.8 ms |
+| 2 | 104 -> 4 | 106.3 -> 103.3 | 147.01 -> 146.61 | length -2.8%, cost -0.3%, 0.3 ms |
+| 4 | 104 -> 4 | 106.3 -> 103.5 | 187.71 -> 187.38 | length -2.7%, cost -0.2%, 0.3 ms |
+| 8 | 143 -> 11 | 168.9 -> 159.6 | 231.89 -> 229.30 | length -5.5%, cost -1.1%, 1.1 ms |
+
+## Bonus: uphill is expensive (step cost x (1 + 3 * rise/run) when climbing), k = 4, octile
+| uphill | direction | path cost | length 3D (m) | ascent (m) | descent (m) | max slope | expanded | steps |
+|---|---|---|---|---|---|---|---|---|
+| off | NPC -> flag | 187.11 | 109.8 | 11.1 | 11.2 | 30.0 | 6304 | 103 |
+| off | flag -> NPC | 186.79 | 109.8 | 11.2 | 11.1 | 29.0 | 7384 | 103 |
+| on | NPC -> flag | 225.75 | 168.7 | 6.8 | 6.8 | 19.0 | 8656 | 140 |
+| on | flag -> NPC | 229.32 | 164.6 | 6.6 | 6.5 | 19.0 | 9641 | 136 |
+off: forward and backward routes identical: False, cells shared 89/104
+on : forward and backward routes identical: False, cells shared 76/141
+forward route off vs on identical: False, cells shared 4/104
+
+## TODO 4: simulated walk with NpcGridChase.Tick (dt = 0.02 s, base speed 4 m/s, speed = speed / cell cost)
+| k | smoothing | travel time (s) | 2D distance (m) | mean speed (m/s) | min speed (m/s) | max speed (m/s) | speed on steepest cell | time x speed vs continuous cost |
+|---|---|---|---|---|---|---|---|---|
+| 0 | off | 26.4 | 105.5 | 4.00 | 4.00 | 4.00 | 4.00 m/s at 33.4 deg | 105.5 vs 105.5 |
+| 0 | on | 25.8 | 103.2 | 4.00 | 4.00 | 4.00 | 4.00 m/s at 33.4 deg | 103.2 vs 103.2 |
+| 4 | off | 46.9 | 106.3 | 2.26 | 1.01 | 3.97 | 1.01 m/s at 30.0 deg | 187.8 vs 187.7 |
+| 4 | on | 46.8 | 103.5 | 2.21 | 1.02 | 3.97 | 1.04 m/s at 29.9 deg | 187.4 vs 187.4 |
+| 8 | off | 58.0 | 168.8 | 2.91 | 1.19 | 4.00 | 1.44 m/s at 19.0 deg | 231.9 vs 231.9 |
+| 8 | on | 57.3 | 159.6 | 2.78 | 1.08 | 4.00 | 2.33 m/s at 20.4 deg | 229.3 vs 229.3 |
+

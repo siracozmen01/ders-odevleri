@@ -1,0 +1,4 @@
+[Harness] first search: 6304 nodes, 103 steps, cost 187.11, length 109.8 m (2D 106.3 m), max slope 30.0 deg, mean slope 12.8 deg, 12.32 ms
+[Harness] PASS arrival: game time 46.9 s, distance to flag 0.62 m, start (12.50, 4.25, 60.50)
+[Harness] PASS TODO 4 slowdown: max speed 3.97 m/s, min speed 1.00 m/s on a 30.3 deg cell
+[Harness] PASS re-plan on k change: k=4 103 steps cost 187.11 -> k=8 9237 nodes, 142 steps, cost 231.35, length 169.9 m (2D 168.9 m), max slope 19.0 deg, mean slope 6.6 deg, 9.36 ms
