@@ -1,0 +1,58 @@
+[TEST] PASS SideOf exercise 2: guard at origin facing +Z, player (-2,0,5) is LEFT 
+[TEST] PASS SideOf: Cross((0,0,1),(1,0,0)).y > 0 -> RIGHT 
+[TEST] PASS Diagonal W+D clamped to length 1 (camera yaw 45 -> world +X) dir=(1.000, 0.000, 0.000) |d|=1.0000
+[TEST] PASS Camera pitched 30 deg: W still gives a flat unit vector (0.707, 0.000, 0.707)
+[TEST] PASS Smoothing 1-e^(-k dt): one 30 FPS frame == two 60 FPS frames t30=0.2835 two60=0.2835
+[Gozcu_A] Player SEEN - on the LEFT of the guard (solunda)
+[TEST] PASS A: player in cone, clear line -> SEEN (red) inCone=True angle=36.9 side=Left
+[TEST] PASS A: player at +X of a guard facing -Z is on its LEFT 
+[TEST] PASS Console logged 'LEFT' once [Gozcu_A] Player SEEN - on the LEFT of the guard (solunda) | [TEST] PASS A: player in cone, clear line -> SEEN (red) inCone=True angle=36.9 side=Left | [TEST] PASS A: player at +X of a guard facing -Z is on its LEFT 
+[TEST] PASS A: player at -X, in cone -> SEEN, RIGHT seen=True inCone=True side=Right angle=38.7
+[Gozcu_A] Player now on the RIGHT of the guard (sağında)
+[TEST] PASS Console logged 'RIGHT' after the side change [TEST] PASS A: player at -X, in cone -> SEEN, RIGHT seen=True inCone=True side=Right angle=38.7 | [Gozcu_A] Player now on the RIGHT of the guard (sağında)
+[TEST] PASS No console spam while nothing changes (30 frames) new messages=0
+[Gozcu_A] Player lost
+[TEST] PASS A: behind the hill -> NOT seen (green), although inside the cone inCone=True
+[TEST]    hill blocker: Terrain at (-2.17, 2.32, 16.20)
+[TEST] PASS A: behind tree T1 -> NOT seen (green), inside the cone, blocked at the trunk pos=(5.58, 10.84) hit=(4.80, 2.08, 12.39) distToTrunk=0.44
+[TEST] PASS A: out of range (16.5 m, 35 deg, clear line) -> NOT seen distance=16.51
+[TEST] PASS A: outside the angle (60 deg, 10 m, clear line) -> NOT seen angle=60.0
+[Gozcu_A] Player SEEN - straight AHEAD (tam önünde)
+[TEST] PASS A: player floating high (elevation ~38 deg), height trap OFF -> SEEN by the 90 deg 3D cone elev=38.0
+[Gozcu_A] Player lost
+[TEST] PASS A: same spot, height trap ON (+-30 deg) -> NOT seen 
+[Gozcu_B] Player SEEN - straight AHEAD (tam önünde)
+[TEST] PASS B: player up the 40 deg ramp, height trap OFF -> SEEN elev=31.9 ground=8.13
+[Gozcu_B] Player lost
+[TEST] PASS B: same spot, height trap ON -> NOT seen 
+[Gozcu_B] Player SEEN - straight AHEAD (tam önünde)
+[TEST] PASS B: low on the ramp (below 30 deg), height trap ON -> still SEEN elev=21.0
+[Gozcu_B] Player lost
+[TEST]    scan: 2160 frames in 9 s (~240 FPS)
+[TEST] PASS Scan: sweeps between -60 and +60 deg min=-59.87 max=59.93
+[TEST] PASS Scan: angular speed 30 deg/s median=30.00 deg/s
+[TEST] PASS Scan: mode reported as Scanning 
+[Gozcu_A] Player SEEN - on the LEFT of the guard (solunda)
+[Gozcu_A] Player now straight AHEAD (tam önünde)
+[TEST] PASS Chase: guard turned to face the player mode=Chasing facing error=0.00 deg
+[Gozcu_A] Player lost
+[TEST] PASS Chase: still chasing 1.5 s after losing the player mode=Chasing
+[TEST] PASS Chase: back to Scanning after ~2 s unseen after 2.00 s
+[TEST] PASS Move [W, camera yaw 0, 60 FPS] speed=3.93 m/s (expected 4) dirErr=0.0 deg fps~60
+[TEST] PASS Move [W, camera yaw 0, 30 FPS] speed=3.87 m/s (expected 4) dirErr=0.0 deg fps~30
+[TEST] PASS Move [W, camera yaw 0, 144 FPS] speed=3.97 m/s (expected 4) dirErr=0.0 deg fps~144
+[TEST] PASS Move [W+D diagonal (not 5.66)] speed=3.93 m/s (expected 4) dirErr=2.3 deg fps~60
+[TEST] PASS Move [W, camera yaw 90 -> world +X] speed=3.93 m/s (expected 4) dirErr=0.0 deg fps~60
+[TEST] PASS Move [Shift+W sprint] speed=6.89 m/s (expected 7) dirErr=0.0 deg fps~60
+[TEST] SUMMARY pass=32 fail=0
+[TEST] screenshot 01-overview.png A.seeing=False B.seeing=False
+[TEST] screenshot 02-hidden-behind-hill-green.png A.seeing=False B.seeing=False
+[Gozcu_A] Player SEEN - on the LEFT of the guard (solunda)
+[TEST] screenshot 03-seen-red.png A.seeing=True B.seeing=False
+[Gozcu_A] Player lost
+[TEST] screenshot 04-hidden-behind-tree-green.png A.seeing=False B.seeing=False
+[Gozcu_B] Player SEEN - straight AHEAD (tam önünde)
+[TEST] screenshot 05-height-trap-off-red.png A.seeing=False B.seeing=True
+[Gozcu_B] Player lost
+[TEST] screenshot 06-height-trap-on-green.png A.seeing=False B.seeing=False
+[TEST] DONE
