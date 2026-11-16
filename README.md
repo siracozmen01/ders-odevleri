@@ -27,6 +27,36 @@ Weekly practice work and homework for two courses (Fall 2026–2027). Every assi
 | 6 | User input: `TextInput`, `Pressable`, forms, number guessing game | [`mobil/hafta06-kullanici-girdisi`](mobil/hafta06-kullanici-girdisi) |
 | Extra | Mobile app UI design in Figma (Kasa – Password Manager) | [`mobil/ek-figma-arayuz`](mobil/ek-figma-arayuz) |
 
+## Screenshots
+
+### Game AI
+
+| Week 1 – IsInFov / SideOf | Week 2 – Smart turret |
+|---|---|
+| <img src="yapay-zeka/hafta01-gorus-fonksiyonlari/screenshots/01-konsol-ciktisi.png" width="380"> | <img src="yapay-zeka/hafta02-akilli-kule/screenshots/02-odev-senaryolar.png" width="380"> |
+
+| Week 3 – Gözcü sees the player | Week 4 – In-class NavMesh vs A* |
+|---|---|
+| <img src="yapay-zeka/hafta03-gozcu/screenshots/03-seen-red.png" width="380"> | <img src="yapay-zeka/hafta04-ders-ici-navmesh-astar/screenshots/04-navmesh-vs-astar.png" width="380"> |
+
+| Week 4 – Dağ Yolu, k = 0 / 2 / 8 | Week 5 – Corner points, smoothed path |
+|---|---|
+| <img src="yapay-zeka/hafta04-dag-yolu/screenshots/02b-yollar-k0-k2-k8.png" width="380"> | <img src="yapay-zeka/hafta05-kose-noktalari/screenshots/06-halka-kose-yol-yumusatilmis.png" width="380"> |
+
+| Week 6 – Routes A–D | Extra – Alarm and chase |
+|---|---|
+| <img src="yapay-zeka/hafta06-kestirme-guvenli-yol/screenshots/genel-rotalar.png" width="380"> | <img src="yapay-zeka/ek-devriye-alarm/screenshots/03-alarm-chase.png" width="380"> |
+
+### Mobile
+
+| Week 1 | Week 2 | Week 3 | Week 4 |
+|---|---|---|---|
+| <img src="mobil/hafta01-kurulum/screenshots/home.png" width="180"> | <img src="mobil/hafta02-javascript/screenshots/01-skor-tablosu.png" width="180"> | <img src="mobil/hafta03-bilesen-props/screenshots/01-skor-tablosu-envanter.png" width="180"> | <img src="mobil/hafta04-flexbox/screenshots/01-karakter-profili.png" width="180"> |
+
+| Week 5 | Week 6 | Extra – Figma |
+|---|---|---|
+| <img src="mobil/hafta05-oyun-dashboard/screenshots/01-dashboard.png" width="180"> | <img src="mobil/hafta06-kullanici-girdisi/screenshots/13-tahmin-bildin.png" width="180"> | <img src="mobil/ek-figma-arayuz/ekranlar/02-kasa.png" width="180"> |
+
 ## Running
 
 - **Unity projects:** open the folder in Unity Hub with Unity **6000.6.8f1**, then open the scene listed in the project's README.

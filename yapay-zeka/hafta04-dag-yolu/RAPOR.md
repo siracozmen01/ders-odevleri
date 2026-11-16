@@ -245,13 +245,52 @@ Ek bir koşul daha var: düz parçanın maliyeti (her hücrede kat edilen uzunlu
 
 ## 6. Ekran görüntüleri
 
-| Dosya | İçerik |
-|---|---|
-| `01-maliyet-haritasi-k4.png` | Maliyet haritası, k = 4 (yeşil → kırmızı, siyah = geçilemez) ve k = 4 yolu |
-| `01b-maliyet-haritasi-k8.png` | Aynı harita k = 8'de (renk ölçeği sabit; dik hücreler kızarıyor) |
-| `02-yollar-k0-k8.png` | Aynı başlangıç ve hedef: k = 0 (beyaz) ve k = 8 (pembe) |
-| `02b-yollar-k0-k2-k8.png` | k = 0 beyaz, k = 2 mavi, k = 8 pembe |
-| `03-npc-yolda.png`, `03b-npc-yolda-maliyet.png` | NPC k = 4 yolunda, boyuna tırmanırken |
-| `06-oyun-ici-hud.png`, `07-oyun-ici-takip.png` | Çalışan oyundan (player build). HUD eğimi, maliyet çarpanını ve hızı gösteriyor; örneğin 27,9° → ×3,53 → 1,13 m/s. |
+**Sahne: dağ sırtı, orta boyun, kuzey geçidi ve güney dolanma yolu**
+
+![Sahne: dağ sırtı, orta boyun, kuzey geçidi ve güney dolanma yolu](screenshots/00-sahne.png)
+
+**Maliyet haritası, k = 4 (yeşil → kırmızı, siyah = geçilemez) ve k = 4 yolu**
+
+![Maliyet haritası, k = 4 (yeşil → kırmızı, siyah = geçilemez) ve k = 4 yolu](screenshots/01-maliyet-haritasi-k4.png)
+
+**Aynı harita k = 8'de (renk ölçeği sabit; dik hücreler kızarıyor)**
+
+![Aynı harita k = 8'de (renk ölçeği sabit; dik hücreler kızarıyor)](screenshots/01b-maliyet-haritasi-k8.png)
+
+**Deney 1: aynı başlangıç ve hedef, k = 0 (beyaz) ve k = 8 (pembe)**
+
+![Deney 1: aynı başlangıç ve hedef, k = 0 (beyaz) ve k = 8 (pembe)](screenshots/02-yollar-k0-k8.png)
+
+**Deney 1: k = 0 beyaz, k = 2 mavi, k = 8 pembe**
+
+![Deney 1: k = 0 beyaz, k = 2 mavi, k = 8 pembe](screenshots/02b-yollar-k0-k2-k8.png)
+
+**Aynı yollar perspektiften**
+
+![Aynı yollar perspektiften](screenshots/02c-yollar-perspektif.png)
+
+**NPC k = 4 yolunda, boyuna tırmanırken**
+
+![NPC k = 4 yolunda, boyuna tırmanırken](screenshots/03-npc-yolda.png)
+
+**NPC yolda, maliyet haritası açık**
+
+![NPC yolda, maliyet haritası açık](screenshots/03b-npc-yolda-maliyet.png)
+
+**Ek görev: yol düzeltme (k = 8)**
+
+![Ek görev: yol düzeltme (k = 8)](screenshots/04-yol-duzeltme-k8.png)
+
+**Ek görev: yokuş yukarı pahalı (k = 4)**
+
+![Ek görev: yokuş yukarı pahalı (k = 4)](screenshots/05-yokus-yukari-k4.png)
+
+**Çalışan oyundan (player build): HUD eğimi, maliyet çarpanını ve hızı gösteriyor; örneğin 27,9° → ×3,53 → 1,13 m/s**
+
+![Çalışan oyundan (player build): HUD eğimi, maliyet çarpanını ve hızı gösteriyor; örneğin 27,9° → ×3,53 → 1,13 m/s](screenshots/06-oyun-ici-hud.png)
+
+**Çalışan oyundan: takip kamerası**
+
+![Çalışan oyundan: takip kamerası](screenshots/07-oyun-ici-takip.png)
 
 Gizmos görüntüsü toplu (batch) modda yakalanamadığı için resimlerde aynı renk fonksiyonunu (`GridMap.CostColor`) kullanan çalışma zamanı katmanı (`CostMapOverlay`) görünüyor. Editörde `Grid → Draw Cost Map` işaretlenince Gizmos sürümü de Sahne görünümünde çizilir.
