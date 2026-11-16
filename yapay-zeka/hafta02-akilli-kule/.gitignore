@@ -1,0 +1,3 @@
+# The repo root ignores *.csproj for Unity projects.
+# This is a plain .NET console project, so its .csproj must be committed.
+!*.csproj
