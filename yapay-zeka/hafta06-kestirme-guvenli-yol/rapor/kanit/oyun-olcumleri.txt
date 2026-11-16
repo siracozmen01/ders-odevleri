@@ -1,0 +1,35 @@
+agent on NavMesh at start: True
+Unity 6000.6.8f1, window 1000x900
+NPC start (4.00, 18.00), character (26.00, 18.00)
+
+== 1. Cost settings (speed 0) ==
+Ayar 1 (Camur 2.00, SigSu 3.00, Jump 2.00): route B, corners 4, length 22.00 m, cost 25.00, status PathComplete
+Ayar 2 (Camur 2.00, SigSu 3.00, Jump 6.00): route A, corners 6, length 25.62 m, cost 31.62, status PathComplete
+Ayar 3 (Camur 6.00, SigSu 1.00, Jump 6.00): route C, corners 6, length 27.97 m, cost 27.97, status PathComplete
+Ayar 4 (Camur 6.00, SigSu 6.00, Jump 10.00): route D, corners 6, length 41.21 m, cost 41.21, status PathComplete
+
+== 2. Door test (Ayar 4, speed 0) ==
+door open: route D, corners 6, length 41.21 m, cost 41.21, status PathComplete
+door closed (K): route changed D -> B 1.55 s after the key press (door rises 2.1 m at 2 m/s = 1.05 s, then Time To Stationary 0.5 s); route B, corners 4, length 22.00 m, cost 49.00, status PathComplete
+door opened again: route D, corners 6, length 41.21 m, cost 41.21, status PathComplete
+
+== 3. Link test (Ayar 1, speed 0) ==
+link on: route B, corners 4, length 22.00 m, cost 25.00, status PathComplete
+link off (J): route A, corners 6, length 25.62 m, cost 31.62, status PathComplete
+
+== 4. Overview ==
+route A: forced path is A, 6 corners, 25.62 m
+route B: forced path is B, 4 corners, 22.00 m
+route C: forced path is C, 6 corners, 27.97 m
+route D: forced path is D, 6 corners, 41.21 m
+
+== 5. Runs to the character (speed 3.5 m/s, reach = horizontal distance < 1 m) ==
+Ayar 1 (B, jump): planned route B (22.00 m), reached in 5.64 s, walked 21.00 m, time in mud 0.00 s, jumped True
+Ayar 3 (C, water): planned route C (27.97 m), reached in 7.98 s, walked 27.09 m, time in mud 0.00 s, jumped False
+Ayar 4 (D, door): planned route D (41.21 m), reached in 11.95 s, walked 40.51 m, time in mud 0.00 s, jumped False
+
+== 6. Bonus: Ayar 2 (route A through mud), slowdown off vs on ==
+Ayar 2, slowdown OFF, run 1: planned route A (25.62 m), reached in 7.30 s, walked 24.72 m, time in mud 1.74 s, jumped False
+Ayar 2, slowdown ON,  run 1: planned route A (25.62 m), reached in 8.96 s, walked 24.71 m, time in mud 3.33 s, jumped False
+Ayar 2, slowdown OFF, run 2: planned route A (25.62 m), reached in 7.30 s, walked 24.72 m, time in mud 1.74 s, jumped False
+Ayar 2, slowdown ON,  run 2: planned route A (25.62 m), reached in 8.96 s, walked 24.71 m, time in mud 3.33 s, jumped False

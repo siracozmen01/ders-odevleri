@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Hafta 6 Ödevi – Kestirme mi, Güvenli Yol mu?</title>
+<style>
+  @page { size: A4; margin: 11mm 13mm 11mm 13mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Calibri, Arial, sans-serif; font-size: 9.3pt; line-height: 1.32; color: #1b1d22; margin: 0; }
+  h1 { font-size: 14.5pt; margin: 0 0 1mm 0; }
+  .meta { color: #555; font-size: 8.6pt; margin-bottom: 2.5mm; }
+  h2 { font-size: 10.8pt; margin: 3mm 0 1.2mm 0; padding-bottom: 0.6mm; border-bottom: 1.2px solid #c9ccd3; }
+  p { margin: 0 0 1.6mm 0; text-align: justify; }
+  table { border-collapse: collapse; width: 100%; font-size: 8.4pt; margin: 1mm 0 1.8mm 0; }
+  th, td { border: 1px solid #b9bdc6; padding: 0.7mm 1.3mm; text-align: center; vertical-align: middle; }
+  th { background: #eef0f4; font-weight: 600; }
+  td.l, th.l { text-align: left; }
+  .win { font-weight: 700; background: #fff4c2; }
+  .row { display: flex; gap: 4mm; align-items: flex-start; }
+  .crop { overflow: hidden; aspect-ratio: 1 / 1; border: 1px solid #9aa0aa; }
+  .ov { width: 80mm; flex: 0 0 80mm; }
+  .side p { text-align: left; }
+  .test { width: 50mm; flex: 0 0 50mm; }
+  .test img { width: 113%; display: block; }
+  .ov img { width: 129.87%; margin-left: -14.935%; margin-top: -14.935%; display: block; }
+  .shots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.5mm; margin: 1mm 0 1mm 0; }
+  .shots img { width: 113%; display: block; }
+  .cap { font-size: 7.8pt; color: #444; text-align: center; margin-top: 0.6mm; }
+  ul { margin: 0 0 1.5mm 0; padding-left: 4.5mm; }
+  li { margin-bottom: 0.6mm; }
+  .f { font-family: Cambria, "Times New Roman", serif; font-style: italic; }
+  .small { font-size: 7.9pt; color: #555; }
+  .break { break-before: page; }
+  code { font-family: Consolas, monospace; font-size: 8.2pt; }
+</style>
+</head>
+<body>
+
+<h1>Hafta 6 Ödevi – Kestirme mi, Güvenli Yol mu?</h1>
+<div class="meta">Dijital Oyunlarda Yapay Zekâ · Navigasyon Ağları (NavMesh) · Hazırlayan: Siraç Özmen · Unity 6.6 (6000.6.8f1), AI Navigation 2.0.16</div>
+
+<h2>1. Sahne ve rotalar</h2>
+<div class="row">
+  <div>
+    <div class="crop ov"><img src="screenshots/genel-rotalar.png" alt="Sahnenin üstten görünüşü ve rotalar"></div>
+    <div class="cap">Üstten görünüm (30 × 30 m). Kırmızı küre NPC (N), mavi kapsül karakter (P).<br>Rotalar Unity'nin hesapladığı yollardır: A kahverengi, B mor, C turkuaz, D turuncu.</div>
+  </div>
+  <div class="side">
+    <p>Derste kurduğumuz U yerine sahneyi ikiye bölen bir <b>engel hattı</b> tasarladım (x = 12–18, yükseklik 1 m). NPC sol avluda <b>N = (4; 18)</b>, karakter sağ avluda <b>P = (26; 18)</b>. Engelden geçmenin dört yolu var:</p>
+    <ul>
+      <li><b>A – Çamur:</b> üstteki 4 m genişliğinde koridor (z = 23–27). Koridorun tamamı <code>NavMeshModifierVolume</code> ile <b>Camur</b> alanı (User 3).</li>
+      <li><b>B – Atlama:</b> ortadaki 1 m'lik ince duvarın üstünden <code>NavMeshLink</code>: (13,5; 18) ⇝ (16,5; 18), alan <b>Jump</b>, çift yönlü. NPC bağlantıyı <code>JumpLinkTraverser</code> ile parabol çizerek (h = 1,5 m) geçiyor.</li>
+      <li><b>C – Sığ su:</b> alttaki koridor (z = 7–11), <code>NavMeshModifierVolume</code> ile <b>SigSu</b> alanı (User 4).</li>
+      <li><b>D – Kapı (güvenli yol):</b> en alttaki koridor (z = 0–3). İçinde <code>SlidingDoor</code> + Carve açık <code>NavMeshObstacle</code> (Carve Only Stationary, 0,5 s) var; K ile kapanınca ağı oyuyor. Özel alan yok, ama en uzun yol.</li>
+    </ul>
+    <p>Duvar blokları <code>NavMeshModifier</code> ile <i>Not Walkable</i> (üstleri pişirilmiyor), kapı <i>Remove object</i> modunda. Beş ders betiği (NpcNavChase, PathDebugDraw, SlidingDoor, JumpLinkTraverser, AreaCostToggle) NPC'de; AreaCostToggle'a Sığ su (N), Atlama (H) ve rapordaki ayarlar için 1–4 tuşları eklendi.</p>
+  </div>
+</div>
+
+<h2>2. Rotaların elle hesaplanan maliyeti (5.2'deki gibi)</h2>
+<p>Ajan yarıçapı 0,5 m olduğu için engelleri 0,5 m şişirilmiş düşündüm; köşe noktaları şişirilmiş köşelerdir. Örneğin A: N'den (11,5; 23,5) köşesine √(7,5² + 5,5²) = 9,30 m, koridor boyunca 7 m, sonra P'ye yine 9,30 m: toplam 25,60 m; bunun 6 m'si çamurda (x = 12–18). Hesapta Unity'nin ölçtüğü uzunlukları kullandım (<code>NavMesh.CalculatePath</code> + PathDebugDraw'daki alan örneklemesi). Çamur maliyeti <span class="f">m</span>, sığ su <span class="f">s</span>, Jump <span class="f">j</span>; <span class="f">g</span> = Σ <span class="f">L<sub>i</sub> · c<sub>i</sub></span>:</p>
+<table>
+  <tr><th>Rota</th><th class="l">Köşe noktaları (elle)</th><th>Elle uzunluk</th><th>Unity uzunluğu</th><th>Özel parça</th><th>Maliyet <span class="f">g</span></th></tr>
+  <tr><td>A</td><td class="l">N → (11,5; 23,5) → (18,5; 23,5) → P</td><td>9,30 + 7 + 9,30 = 25,60</td><td>25,62</td><td>6,00 m çamur</td><td><span class="f">g<sub>A</sub></span> = 19,62 + 6<span class="f">m</span></td></tr>
+  <tr><td>B</td><td class="l">N → (13,5; 18) ⇝ (16,5; 18) → P</td><td>9,50 + 3 + 9,50 = 22,00</td><td>22,00</td><td>3,00 m bağlantı</td><td><span class="f">g<sub>B</sub></span> = 19,00 + 3<span class="f">j</span></td></tr>
+  <tr><td>C</td><td class="l">N → (11,5; 10,5) → (18,5; 10,5) → P</td><td>10,61 + 7 + 10,61 = 28,21</td><td>27,97</td><td>6,00 m sığ su</td><td><span class="f">g<sub>C</sub></span> = 21,97 + 6<span class="f">s</span></td></tr>
+  <tr><td>D</td><td class="l">N → (11,5; 2,5) → (18,5; 2,5) → P</td><td>17,22 + 7 + 17,22 = 41,44</td><td>41,21</td><td>yok (kapı açık)</td><td><span class="f">g<sub>D</sub></span> = 41,21</td></tr>
+</table>
+<p class="small">C ve D'de Unity 0,24 m daha kısa: aşındırma köşeyi dik değil pahlı keser, Unity'nin köşesi (11,5; 10,83) → (12; 10,5) olur; ip köşeyi biraz daha kısa yoldan döner. A'da ise Unity'nin çizgisi koridorda z = 23,5 yerine 23,67'den geçiyor: voksel boyutu 0,167 m olduğu için aşındırma o kenarda 0,67 m'ye yuvarlanıyor. Pahlama yolu kısaltıyor, yuvarlama uzatıyor; sonuçta fark +0,02 m.</p>
+
+
+<h2>Sahnedeki dinamik öğelerin testi</h2>
+<div class="row">
+  <div><div class="crop test"><img src="screenshots/kapi-kapali.png" alt="Kapı kapalı"></div><div class="cap">Ayar 4, kapı kapalı (K): rota D → B</div></div>
+  <div><div class="crop test"><img src="screenshots/baglanti-kapali.png" alt="Bağlantı kapalı"></div><div class="cap">Ayar 1, bağlantı kapalı (J): rota B → A</div></div>
+  <div class="side">
+    <p>Bu testleri, sahneyi bir oyun derlemesinde otomatik çalıştırarak yaptım (ilk iki testte NPC hızı 0).</p>
+    <ul>
+      <li><b>Hareketli engel:</b> Ayar 4'te NPC kapı koridorunu (D) kullanıyor. K ile kapı kapanınca sarı çizgi <b>D → B</b> oldu, ekrandaki maliyet 41,21'den 49,00'a çıktı. Değişim tuştan <b>1,55 s</b> sonra geldi: kapının 2,1 m yükselmesi 1,05 s sürüyor, Carve Only Stationary açık olduğu için oyma da kapı durduktan 0,5 s sonra yapılıyor. Kapı yeniden açılınca rota D'ye döndü.</li>
+      <li><b>Bağlantı:</b> Ayar 1'de J ile bağlantı kapanınca rota <b>B → A</b> oldu (maliyet 25,00 → 31,62).</li>
+      <li><b>Atlama:</b> Ayar 1'de NPC normal hızla (3,5 m/s) koştu, bağlantıda JumpLinkTraverser ile parabol çizerek atladı ve karaktere <b>5,64 s</b>'de ulaştı. Yol durumu hep PathComplete kaldı.</li>
+    </ul>
+  </div>
+</div>
+
+<h2 class="break">3. Üç maliyet ayarı: tahmin ve Unity</h2>
+<p>Her ayarda NPC'nin hızı 0 yapıldı (laboratuvardaki gibi), böylece ekrandaki sayılar yolun tamamını gösteriyor. Rota, sarı çizgiden ve panelin “Rota” satırından okundu. Dördüncü ayarı güvenli yolu (D) da göstermek için ekledim.</p>
+<table>
+  <tr><th>Ayar</th><th>Çamur <span class="f">m</span></th><th>Sığ su <span class="f">s</span></th><th>Jump <span class="f">j</span></th><th><span class="f">g</span>(A)</th><th><span class="f">g</span>(B)</th><th><span class="f">g</span>(C)</th><th><span class="f">g</span>(D)</th><th>Tahmin</th><th>Unity'nin seçtiği</th><th>Ekrandaki uzunluk</th><th>Ekrandaki maliyet</th></tr>
+  <tr><td>1</td><td>2</td><td>3</td><td>2</td><td>31,62</td><td class="win">25,00</td><td>39,97</td><td>41,21</td><td>B</td><td><b>B</b> (atlama)</td><td>22,00 m</td><td>25,00</td></tr>
+  <tr><td>2</td><td>2</td><td>3</td><td><b>6</b></td><td class="win">31,62</td><td>37,00</td><td>39,97</td><td>41,21</td><td>A</td><td><b>A</b> (çamur)</td><td>25,62 m</td><td>31,62</td></tr>
+  <tr><td>3</td><td>6</td><td>1</td><td>6</td><td>55,62</td><td>37,00</td><td class="win">27,97</td><td>41,21</td><td>C</td><td><b>C</b> (sığ su)</td><td>27,97 m</td><td>27,97</td></tr>
+  <tr><td>4</td><td>6</td><td>6</td><td>10</td><td>55,62</td><td>49,00</td><td>57,97</td><td class="win">41,21</td><td>D</td><td><b>D</b> (kapı)</td><td>41,21 m</td><td>41,21</td></tr>
+</table>
+<div class="shots">
+  <div><div class="crop"><img src="screenshots/ayar1.png" alt="Ayar 1"></div><div class="cap">Ayar 1 → B</div></div>
+  <div><div class="crop"><img src="screenshots/ayar2.png" alt="Ayar 2"></div><div class="cap">Ayar 2 → A</div></div>
+  <div><div class="crop"><img src="screenshots/ayar3.png" alt="Ayar 3"></div><div class="cap">Ayar 3 → C</div></div>
+  <div><div class="crop"><img src="screenshots/ayar4.png" alt="Ayar 4"></div><div class="cap">Ayar 4 → D</div></div>
+</div>
+<p class="small">Ekran görüntülerinin sol üstünde PathDebugDraw ve AreaCostToggle panelleri var (köşe sayısı, uzunluk, maliyet, durum, ayar, rota). Dört ayarda da Unity'nin seçimi tahminle aynı; ekrandaki maliyet tahmin edilen <span class="f">g</span> ile birebir tuttu.</p>
+
+<h2>4. Rota hangi maliyette değişiyor?</h2>
+<p><b>Ayar 1 → Ayar 2</b> arasında yalnızca Jump maliyeti değişti (2 → 6) ve rota <b>B → A</b> oldu. Çamur 2 iken <span class="f">g<sub>A</sub></span> = 19,62 + 6 · 2 = 31,62. B'nin A'dan pahalı olması için 19,00 + 3<span class="f">j</span> &gt; 31,62, yani <b><span class="f">j</span> &gt; 4,21</b> gerekir. Unity'de Jump maliyetini 1'den 15'e 0,05 adımla taradım: 4,30'da hâlâ B, 4,35'te A. Eşik elle hesapla 0,1–0,15 içinde tuttu.</p>
+<p>Aynı yolla Ayar 3'te C, 21,97 + 6<span class="f">s</span> &lt; 37,00 olduğu sürece, yani <span class="f">s</span> &lt; 2,51 iken seçilir (Unity: 2,50 → 2,55 arasında B'ye geçti). Ayar 4'te ise fark büyük. Elle hesaba göre D, 19 + 3<span class="f">j</span> &gt; 41,21 olunca, yani <span class="f">j</span> &gt; 7,40 iken seçilmeli; Unity ise <span class="f">j</span> = 8,65'e kadar B'de kaldı, D'ye ancak 8,70'te geçti. Sebebi 5.2'deki not: Unity A*'ı çokgenler üzerinde yapıyor ve maliyeti çokgen kenarlarının orta noktaları arasından ölçüyor. D'nin geçtiği alt avlu 11 m'lik uzun üçgenlerden oluşuyor, orta noktalar gerçek yoldan uzak düşüyor. Bu yüzden Unity D'yi gerçekte olduğundan pahalı görüyor: geçiş anında 19 + 3 · 8,7 = 45,1, yani gerçek 41,21'den yaklaşık 3,9 birim (%9) fazla. Kısa koridorlu A, B ve C'de bu hata çok küçük.</p>
+
+<h2>5. Hangi ayar oyuncuya en “akıllı” görünür?</h2>
+<p>Bence <b>Ayar 1</b>. NPC alçak duvarı görür görmez üstünden atlıyor ve karaktere 5,64 s'de ulaşıyor. Gerçek koşularda bu en hızlı rota: C 7,98 s, A 7,30 s (çamurda yavaşlarsa 8,96 s), D 11,95 s. Oyuncunun kendisinin de seçeceği bu kestirme NPC'yi kararlı ve çevik gösterir. Burada önemli olan, maliyetlerin gerçek yavaşlamayla tutarlı olması. Çamurda hız yarıya iniyorsa çamurun gerçek bedeli 2'dir, NPC'nin “en ucuz” bulduğu yol gerçekten en hızlı yol olur. <b>Ayar 4</b> ise en aptal görünenidir: oyuncu üç kısa yolu açıkça görürken NPC 12 saniyelik dolambaca girer. Hikâyede bir gerekçe yoksa (ağır zırhlı, yüzemeyen ya da atlayamayan bir muhafız) bu davranış korkaklık ya da hata gibi algılanır. Ayar 2 ve 3 ise farklı NPC tiplerine verilirse (<code>agent.SetAreaCost</code> ajana özel) dünyayı canlı gösterir.</p>
+
+<h2>6. Ek görev: çamurda gerçekten yavaşlama</h2>
+<p><code>MudSlowdown.cs</code> her karede <code>NavMesh.SamplePosition</code> ile ajanın altındaki alanı buluyor (PathDebugDraw'daki <code>AreaIndex</code>). Alan Camur ise <code>agent.speed</code> değerini yarıya indiriyor, çıkınca eski hızına döndürüyor (Y tuşu açar/kapatır). Ölçüm Ayar 2'de (rota A, 6 m çamur, hız 3,5 m/s) yapıldı. Karakter sabit duruyor; NPC'nin merkezi karaktere 1 m'den yakın olunca “ulaştı” sayıldı. Her koşul iki kez koşuldu ve iki koşu da aynı sonucu verdi:</p>
+<table>
+  <tr><th>Koşul</th><th>Seçilen rota</th><th>Yol maliyeti</th><th>Çamurda geçen süre</th><th>Karaktere ulaşma süresi</th></tr>
+  <tr><td class="l">Yavaşlama kapalı</td><td>A</td><td>31,62</td><td>1,74 s</td><td>7,30 s</td></tr>
+  <tr><td class="l">Yavaşlama açık (hız × 0,5)</td><td>A</td><td>31,62</td><td>3,33 s</td><td><b>8,96 s</b> (+1,66 s, %23)</td></tr>
+</table>
+<p>Beklenen fark 6 / 1,75 − 6 / 3,5 = 1,71 s idi; ölçülen fark 1,66 s. Rota ve yol maliyeti değişmedi, çünkü maliyet yalnızca yol bulucuyu etkiliyor. Yavaşlama ise yalnızca süreyi uzattı.</p>
+<p class="small">Kanıt dosyaları: <code>rapor/kanit/editor-rota-hesabi.txt</code> (CalculatePath + SetAreaCost ölçümleri ve taramalar), <code>rapor/kanit/oyun-olcumleri.txt</code> (oyun içi ekran değerleri, kapı/bağlantı testleri, süreler). Görüntüler: <code>screenshots/</code>.</p>
+
+</body>
+</html>

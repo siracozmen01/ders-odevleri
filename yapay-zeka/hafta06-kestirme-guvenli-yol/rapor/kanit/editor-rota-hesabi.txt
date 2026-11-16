@@ -1,0 +1,46 @@
+Unity 6000.6.8f1, AI Navigation 2.0.16. Scene Assets/Scenes/Hafta6.unity
+NavMesh: 92 vertices, 42 triangles; triangles per area: area 0: 38, area 4: 2, area 3: 2
+Area indices: Camur=3, SigSu=4, Jump=2. Project default costs: Camur 1.00, SigSu 1.00, Jump 2.00
+NPC N = (4.00, 18.00)   character P = (26.00, 18.00)
+
+== 1. Route lengths read from Unity (CalculatePath; split by area, 0.02 m steps) ==
+Route A (forced, got A, PathComplete): L = 25.62 m  [walk 19.62, Camur 6.00, SigSu 0.00, link 0.00]
+   corners: (4.00, 18.00) -> (11.50, 23.33) -> (12.00, 23.67) -> (18.00, 23.67) -> (18.67, 23.33) -> (26.00, 18.00)
+Route B (forced, got B, PathComplete): L = 22.00 m  [walk 19.00, Camur 0.00, SigSu 0.00, link 3.00]
+   corners: (4.00, 18.00) -> (13.50, 18.00) -> (16.50, 18.00) -> (26.00, 18.00)
+Route C (forced, got C, PathComplete): L = 27.97 m  [walk 21.97, Camur 0.00, SigSu 6.00, link 0.00]
+   corners: (4.00, 18.00) -> (11.50, 10.83) -> (12.00, 10.50) -> (18.00, 10.50) -> (18.67, 10.83) -> (26.00, 18.00)
+Route D (forced, got D, PathComplete): L = 41.21 m  [walk 41.21, Camur 0.00, SigSu 0.00, link 0.00]
+   corners: (4.00, 18.00) -> (11.50, 2.83) -> (11.83, 2.50) -> (18.33, 2.50) -> (18.67, 2.83) -> (26.00, 18.00)
+
+== 2. Cost settings: hand estimate (g = sum L_i * c_i with the lengths above) vs Unity ==
+Ayar 1: Camur 2.00, SigSu 3.00, Jump 2.00
+   estimate: g(A)=31.62  g(B)=25.00  g(C)=39.97  g(D)=41.21  -> B
+   Unity: route B, status PathComplete, corners 4, length 22.00 m, PathDebugDraw cost 25.00
+   corners: (4.00, 18.00) -> (13.50, 18.00) -> (16.50, 18.00) -> (26.00, 18.00)
+Ayar 2: Camur 2.00, SigSu 3.00, Jump 6.00
+   estimate: g(A)=31.62  g(B)=37.00  g(C)=39.97  g(D)=41.21  -> A
+   Unity: route A, status PathComplete, corners 6, length 25.62 m, PathDebugDraw cost 31.62
+   corners: (4.00, 18.00) -> (11.50, 23.33) -> (12.00, 23.67) -> (18.00, 23.67) -> (18.67, 23.33) -> (26.00, 18.00)
+Ayar 3: Camur 6.00, SigSu 1.00, Jump 6.00
+   estimate: g(A)=55.62  g(B)=37.00  g(C)=27.97  g(D)=41.21  -> C
+   Unity: route C, status PathComplete, corners 6, length 27.97 m, PathDebugDraw cost 27.97
+   corners: (4.00, 18.00) -> (11.50, 10.83) -> (12.00, 10.50) -> (18.00, 10.50) -> (18.67, 10.83) -> (26.00, 18.00)
+Ayar 4: Camur 6.00, SigSu 6.00, Jump 10.00
+   estimate: g(A)=55.62  g(B)=49.00  g(C)=57.97  g(D)=41.21  -> D
+   Unity: route D, status PathComplete, corners 6, length 41.21 m, PathDebugDraw cost 41.21
+   corners: (4.00, 18.00) -> (11.50, 2.83) -> (11.83, 2.50) -> (18.33, 2.50) -> (18.67, 2.83) -> (26.00, 18.00)
+
+== 3. Sweeps (one cost varied 1..15 in 0.05 steps, the others fixed): route switches ==
+Ayar 1, vary Camur (others */3.00/2.00): Unity []   hand []
+Ayar 1, vary SigSu (others 2.00/*/2.00): Unity []   hand []
+Ayar 1, vary Jump (others 2.00/3.00/*): Unity [B->A at 4.35]   hand [B->A at 4.25]
+Ayar 2, vary Camur (others */3.00/6.00): Unity [A->B at 2.85]   hand [A->B at 2.90]
+Ayar 2, vary SigSu (others 2.00/*/6.00): Unity [C->A at 1.70]   hand [C->A at 1.65]
+Ayar 2, vary Jump (others 2.00/3.00/*): Unity [B->A at 4.35]   hand [B->A at 4.25]
+Ayar 3, vary Camur (others */1.00/6.00): Unity [A->C at 1.35]   hand [A->C at 1.40]
+Ayar 3, vary SigSu (others 6.00/*/6.00): Unity [C->B at 2.55]   hand [C->B at 2.55]
+Ayar 3, vary Jump (others 6.00/1.00/*): Unity [B->C at 3.00]   hand [B->C at 3.00]
+Ayar 4, vary Camur (others */6.00/10.00): Unity [A->D at 4.20]   hand [A->D at 3.60]
+Ayar 4, vary SigSu (others 6.00/*/10.00): Unity [C->D at 3.90]   hand [C->D at 3.25]
+Ayar 4, vary Jump (others 6.00/6.00/*): Unity [B->D at 8.70]   hand [B->D at 7.45]
