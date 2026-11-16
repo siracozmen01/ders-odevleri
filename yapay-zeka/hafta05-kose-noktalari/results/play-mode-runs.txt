@@ -1,0 +1,149 @@
+# Play-mode runs in a temporary Windows player build (Hafta5.unity + a temporary test harness).
+# Command: H5Test.exe -batchmode -nographics -h5scenario <name>   (patrol runs use Time.timeScale = 8)
+
+===== scenario: astar =====
+Kenarları Kur: 13 düğüm, 23 kenar
+[H5] Play mode A* Testi: köşeler kapalı, Test Heuristic açık
+Kenarları Kur: 9 düğüm, 9 kenar
+W8 → W7 → W0 → W1 → W2 → W3 | genişletilen: 8 | uzunluk: 38.9 m
+[H5] Play mode A* Testi: köşeler kapalı, Test Heuristic kapalı
+Kenarları Kur: 9 düğüm, 9 kenar
+W8 → W7 → W0 → W1 → W2 → W3 | genişletilen: 9 | uzunluk: 38.9 m
+[H5] Play mode A* Testi: köşeler açık, Test Heuristic açık
+Kenarları Kur: 13 düğüm, 23 kenar
+K4 → K3 → W3 | genişletilen: 4 | uzunluk: 18.5 m
+[H5] Play mode A* Testi: köşeler açık, Test Heuristic kapalı
+Kenarları Kur: 13 düğüm, 23 kenar
+K4 → K3 → W3 | genişletilen: 10 | uzunluk: 18.5 m
+[H5] done
+
+===== scenario: pingpong3 =====
+Kenarları Kur: 13 düğüm, 23 kenar
+[H5] t=5.5s reached W0 (index 0), next index 1, state Patrol
+[H5] t=9.0s reached W1 (index 1), next index 2, state Patrol
+[H5] t=11.9s reached W2 (index 2), next index 1, state Patrol
+[H5] t=14.8s reached W1 (index 1), next index 0, state Patrol
+[H5] t=18.3s reached W0 (index 0), next index 1, state Patrol
+[H5] t=21.8s reached W1 (index 1), next index 2, state Patrol
+[H5] t=24.7s reached W2 (index 2), next index 1, state Patrol
+[H5] t=27.6s reached W1 (index 1), next index 0, state Patrol
+[H5] t=31.1s reached W0 (index 0), next index 1, state Patrol
+[H5] t=34.6s reached W1 (index 1), next index 2, state Patrol
+[H5] t=37.5s reached W2 (index 2), next index 1, state Patrol
+[H5] t=40.5s reached W1 (index 1), next index 0, state Patrol
+[H5] t=43.9s reached W0 (index 0), next index 1, state Patrol
+[H5] pingpong3 pingPong=True route=[W0, W1, W2]
+[H5] visited index order: 0 1 2 1 0 1 2 1 0 1 2 1 0
+[H5] expected index order: 0 1 2 1 0 1 2 1 0 1 2 1 0
+[H5] PASS pingpong3
+[H5] done
+
+===== scenario: loop3 =====
+Kenarları Kur: 13 düğüm, 23 kenar
+[H5] t=5.5s reached W0 (index 0), next index 1, state Patrol
+[H5] t=9.0s reached W1 (index 1), next index 2, state Patrol
+[H5] t=11.9s reached W2 (index 2), next index 0, state Patrol
+[H5] t=18.3s reached W0 (index 0), next index 1, state Patrol
+[H5] t=21.8s reached W1 (index 1), next index 2, state Patrol
+[H5] t=24.7s reached W2 (index 2), next index 0, state Patrol
+[H5] t=31.1s reached W0 (index 0), next index 1, state Patrol
+[H5] t=34.6s reached W1 (index 1), next index 2, state Patrol
+[H5] t=37.5s reached W2 (index 2), next index 0, state Patrol
+[H5] t=43.9s reached W0 (index 0), next index 1, state Patrol
+[H5] t=47.4s reached W1 (index 1), next index 2, state Patrol
+[H5] t=50.3s reached W2 (index 2), next index 0, state Patrol
+[H5] t=56.7s reached W0 (index 0), next index 1, state Patrol
+[H5] loop3 pingPong=False route=[W0, W1, W2]
+[H5] visited index order: 0 1 2 0 1 2 0 1 2 0 1 2 0
+[H5] expected index order: 0 1 2 0 1 2 0 1 2 0 1 2 0
+[H5] PASS loop3
+[H5] done
+
+===== scenario: loop8 =====
+Kenarları Kur: 13 düğüm, 23 kenar
+[H5] t=5.5s reached W0 (index 0), next index 1, state Patrol
+[H5] t=9.0s reached W1 (index 1), next index 2, state Patrol
+[H5] t=11.9s reached W2 (index 2), next index 3, state Patrol
+[H5] t=15.4s reached W3 (index 3), next index 4, state Patrol
+[H5] t=18.8s reached W4 (index 4), next index 5, state Patrol
+[H5] t=21.8s reached W5 (index 5), next index 6, state Patrol
+[H5] t=25.2s reached W6 (index 6), next index 7, state Patrol
+[H5] t=28.7s reached W7 (index 7), next index 0, state Patrol
+[H5] t=32.2s reached W0 (index 0), next index 1, state Patrol
+[H5] t=35.6s reached W1 (index 1), next index 2, state Patrol
+[H5] t=38.6s reached W2 (index 2), next index 3, state Patrol
+[H5] t=42.0s reached W3 (index 3), next index 4, state Patrol
+[H5] t=45.5s reached W4 (index 4), next index 5, state Patrol
+[H5] t=48.4s reached W5 (index 5), next index 6, state Patrol
+[H5] t=52.0s reached W6 (index 6), next index 7, state Patrol
+[H5] t=55.5s reached W7 (index 7), next index 0, state Patrol
+[H5] t=59.0s reached W0 (index 0), next index 1, state Patrol
+[H5] t=62.4s reached W1 (index 1), next index 2, state Patrol
+[H5] t=65.4s reached W2 (index 2), next index 3, state Patrol
+[H5] t=68.8s reached W3 (index 3), next index 4, state Patrol
+[H5] t=72.3s reached W4 (index 4), next index 5, state Patrol
+[H5] t=75.2s reached W5 (index 5), next index 6, state Patrol
+[H5] t=78.7s reached W6 (index 6), next index 7, state Patrol
+[H5] t=82.2s reached W7 (index 7), next index 0, state Patrol
+[H5] loop8 pingPong=False route=[W0, W1, W2, W3, W4, W5, W6, W7]
+[H5] visited index order: 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7
+[H5] expected index order: 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7
+[H5] PASS loop8
+[H5] done
+
+===== scenario: pingpong8 =====
+Kenarları Kur: 13 düğüm, 23 kenar
+[H5] t=5.5s reached W0 (index 0), next index 1, state Patrol
+[H5] t=9.0s reached W1 (index 1), next index 2, state Patrol
+[H5] t=11.9s reached W2 (index 2), next index 3, state Patrol
+[H5] t=15.4s reached W3 (index 3), next index 4, state Patrol
+[H5] t=18.8s reached W4 (index 4), next index 5, state Patrol
+[H5] t=21.8s reached W5 (index 5), next index 6, state Patrol
+[H5] t=25.4s reached W6 (index 6), next index 7, state Patrol
+[H5] t=28.8s reached W7 (index 7), next index 6, state Patrol
+[H5] t=32.3s reached W6 (index 6), next index 5, state Patrol
+[H5] t=35.8s reached W5 (index 5), next index 4, state Patrol
+[H5] t=38.7s reached W4 (index 4), next index 3, state Patrol
+[H5] t=42.2s reached W3 (index 3), next index 2, state Patrol
+[H5] t=45.6s reached W2 (index 2), next index 1, state Patrol
+[H5] t=48.6s reached W1 (index 1), next index 0, state Patrol
+[H5] t=52.0s reached W0 (index 0), next index 1, state Patrol
+[H5] t=55.4s reached W1 (index 1), next index 2, state Patrol
+[H5] t=58.4s reached W2 (index 2), next index 3, state Patrol
+[H5] t=61.9s reached W3 (index 3), next index 4, state Patrol
+[H5] t=65.4s reached W4 (index 4), next index 5, state Patrol
+[H5] t=68.3s reached W5 (index 5), next index 6, state Patrol
+[H5] t=71.8s reached W6 (index 6), next index 7, state Patrol
+[H5] t=75.2s reached W7 (index 7), next index 6, state Patrol
+[H5] t=78.7s reached W6 (index 6), next index 5, state Patrol
+[H5] t=82.2s reached W5 (index 5), next index 4, state Patrol
+[H5] pingpong8 pingPong=True route=[W0, W1, W2, W3, W4, W5, W6, W7]
+[H5] visited index order: 0 1 2 3 4 5 6 7 6 5 4 3 2 1 0 1 2 3 4 5 6 7 6 5
+[H5] expected index order: 0 1 2 3 4 5 6 7 6 5 4 3 2 1 0 1 2 3 4 5 6 7 6 5
+[H5] PASS pingpong8
+[H5] done
+
+===== scenario: chase =====
+Kenarları Kur: 13 düğüm, 23 kenar
+[H5] t=0 state Patrol, NPC (6.50, 0.50, 13.50)
+[H5] t=0.02s state Patrol -> Chase, NPC (6.58, 0.50, 13.47), remaining path [(9.5,12.5)]
+[H5] t=1.00s player hidden behind the U at (17.50, 1.00, 9.50)
+A*: W8 → W3, yol 5 düğüm, 8 genişletildi
+Yumuşatma: 6 nokta → 3 nokta
+A*: K1 → W3, yol 3 düğüm, 4 genişletildi
+Yumuşatma: 4 nokta → 3 nokta
+A*: K1 → W3, yol 3 düğüm, 4 genişletildi
+Yumuşatma: 4 nokta → 3 nokta
+A*: K1 → W3, yol 3 düğüm, 4 genişletildi
+Yumuşatma: 4 nokta → 3 nokta
+A*: K1 → W3, yol 3 düğüm, 4 genişletildi
+Yumuşatma: 4 nokta → 3 nokta
+A*: K2 → W3, yol 2 düğüm, 2 genişletildi
+Yumuşatma: 3 nokta → 2 nokta
+[H5] t=3.72s state Chase -> Return, NPC (7.88, 0.50, 4.14), remaining path [(10.0,3.0)]
+[H5] t=4.82s state Return -> Patrol, NPC (9.82, 0.50, 3.10), remaining path []
+[H5] t=5.45s state Patrol -> Chase, NPC (11.08, 0.50, 3.08), remaining path []
+[H5] t=10.65s state Chase -> Return, NPC (17.36, 0.50, 9.36), remaining path [(16.0,10.0)]
+[H5] t=11.30s state Return -> Patrol, NPC (16.18, 0.50, 9.91), remaining path []
+[H5] t=25s final state Patrol, NPC (3.01, 0.50, 9.29)
+[H5] done

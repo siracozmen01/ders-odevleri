@@ -1,0 +1,55 @@
+=== Halka (K1–K4 kapalı) ===
+-- A* Testi (Test Heuristic açık) --
+Kenarları Kur: 9 düğüm, 9 kenar
+W8 → W7 → W0 → W1 → W2 → W3 | genişletilen: 8 | uzunluk: 38.9 m
+-- A* Testi (Test Heuristic kapalı = Dijkstra) --
+Kenarları Kur: 9 düğüm, 9 kenar
+W8 → W7 → W0 → W1 → W2 → W3 | genişletilen: 9 | uzunluk: 38.9 m
+Kenarlar (9): W0–W1 7.00, W0–W7 7.00, W1–W2 6.00, W2–W3 7.00, W3–W4 7.00, W4–W5 6.00, W5–W6 7.00, W6–W7 7.00, W7–W8 6.00
+  W0.neighbors = [W1, W7]
+  W1.neighbors = [W0, W2]
+  W2.neighbors = [W1, W3]
+  W3.neighbors = [W2, W4]
+  W4.neighbors = [W3, W5]
+  W5.neighbors = [W4, W6]
+  W6.neighbors = [W5, W7]
+  W7.neighbors = [W0, W6, W8]
+  W8.neighbors = [W7]
+Kenarları Kur: 9 düğüm, 9 kenar
+A*: W8 → W3, yol 6 düğüm, 8 genişletildi
+-- NpcWaypointGuard.PlanTo, smoothPath=kapalı -- NPC → W8 → W7 → W0 → W1 → W2 → W3 → Hedef | uzunluk: 38.9 m
+Kenarları Kur: 9 düğüm, 9 kenar
+A*: W8 → W3, yol 6 düğüm, 8 genişletildi
+Yumuşatma: 7 nokta → 3 nokta
+-- NpcWaypointGuard.PlanTo, smoothPath=açık -- NPC → W0 → W2 → Hedef | uzunluk: 30.7 m
+
+=== Halka + köşeler (K1–K4 açık) ===
+-- A* Testi (Test Heuristic açık) --
+Kenarları Kur: 13 düğüm, 23 kenar
+K4 → K3 → W3 | genişletilen: 4 | uzunluk: 18.5 m
+-- A* Testi (Test Heuristic kapalı = Dijkstra) --
+Kenarları Kur: 13 düğüm, 23 kenar
+K4 → K3 → W3 | genişletilen: 10 | uzunluk: 18.5 m
+Kenarlar (23): W0–W1 7.00, W0–W7 7.00, W0–K1 3.16, W1–W2 6.00, W1–K1 4.12, W1–K2 4.12, W2–W3 7.00, W2–K2 2.24, W3–W4 7.00, W3–K2 6.32, W3–K3 6.32, W4–W5 6.00, W4–K3 2.24, W5–W6 7.00, W5–K3 4.12, W5–K4 4.12, W6–W7 7.00, W6–K4 3.16, W7–W8 6.00, W7–K1 6.71, W7–K4 6.71, K1–K2 8.00, K3–K4 8.00
+  W0.neighbors = [W1, W7, K1]
+  W1.neighbors = [W0, W2, K1, K2]
+  W2.neighbors = [W1, W3, K2]
+  W3.neighbors = [W2, W4, K2, K3]
+  W4.neighbors = [W3, W5, K3]
+  W5.neighbors = [W4, W6, K3, K4]
+  W6.neighbors = [W5, W7, K4]
+  W7.neighbors = [W0, W6, W8, K1, K4]
+  W8.neighbors = [W7]
+  K1.neighbors = [W0, W1, W7, K2]
+  K2.neighbors = [W1, W2, W3, K1]
+  K3.neighbors = [W3, W4, W5, K4]
+  K4.neighbors = [W5, W6, W7, K3]
+Kenarları Kur: 13 düğüm, 23 kenar
+A*: K4 → W3, yol 3 düğüm, 4 genişletildi
+-- NpcWaypointGuard.PlanTo, smoothPath=kapalı -- NPC → K4 → K3 → W3 → Hedef | uzunluk: 18.5 m
+Kenarları Kur: 13 düğüm, 23 kenar
+A*: K4 → W3, yol 3 düğüm, 4 genişletildi
+Yumuşatma: 4 nokta → 3 nokta
+-- NpcWaypointGuard.PlanTo, smoothPath=açık -- NPC → K4 → K3 → Hedef | uzunluk: 17.9 m
+
+Kenarları Kur: 13 düğüm, 23 kenar
