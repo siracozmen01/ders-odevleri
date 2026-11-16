@@ -65,6 +65,16 @@ Programın sonucu: yaw 36.87°, alçak açı 14.69°, hız (11.608, 5.071, 15.47
 
 ## 6. Program çıktısı (`dotnet run`, değiştirilmeden kopyalandı)
 
+Ekran görüntüleri:
+
+![Lab çıktısı](screenshots/01-lab.png)
+
+![Ödev senaryoları](screenshots/02-odev-senaryolar.png)
+
+![Alıştırmalar](screenshots/03-alistirmalar.png)
+
+Aynı çıktının metni:
+
 ```
 Dijital Oyunlarda Yapay Zekâ - Hafta 2: Akıllı kule
 ============================================================

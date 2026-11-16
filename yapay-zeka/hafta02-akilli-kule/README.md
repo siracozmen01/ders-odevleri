@@ -84,7 +84,19 @@ The console output is in Turkish because it is pasted into the Turkish report.
 
 ## Screenshots
 
-Not applicable (console program). The full output is in [RAPOR.md](RAPOR.md), section 6.
+Terminal output of `dotnet run` (the full text is also in [RAPOR.md](RAPOR.md), section 6).
+
+**Lab (slide 21):**
+
+![Lab output](screenshots/01-lab.png)
+
+**Homework: `AtisAcisi`, the scenarios side by side, ballistic angles and the 3D bonus:**
+
+![Homework output](screenshots/02-odev-senaryolar.png)
+
+**Exercises (slide 23) checked against the answer key:**
+
+![Exercises output](screenshots/03-alistirmalar.png)
 
 ## Bonus done
 

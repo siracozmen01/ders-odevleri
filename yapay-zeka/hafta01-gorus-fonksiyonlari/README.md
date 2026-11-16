@@ -144,7 +144,9 @@ versions may legitimately differ by round-off there; the boundaries are covered 
 
 ## Screenshots
 
-Not applicable (console program); the output above is the evidence.
+Terminal output of `dotnet run` (the same text as above):
+
+![dotnet run output](screenshots/01-konsol-ciktisi.png)
 
 ## Bonus
 
