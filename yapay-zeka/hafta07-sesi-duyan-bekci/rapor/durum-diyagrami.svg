@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 610" width="960" height="610" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+    </marker>
+    <marker id="okMor" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a2be2"/>
+    </marker>
+    <marker id="okKirmizi" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#c62828"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="960" height="610" fill="#ffffff"/>
+
+  <!-- Global rule -->
+  <rect x="235" y="12" width="490" height="50" rx="8" fill="#fff3f3" stroke="#c62828" stroke-width="1.6" stroke-dasharray="6 4"/>
+  <text x="480" y="33" text-anchor="middle" font-size="14" font-weight="700" fill="#c62828">GLOBAL DURUM (her karede, mevcut durumdan önce)</text>
+  <text x="480" y="52" text-anchor="middle" font-size="13" fill="#333">oyuncu görüldü → Kovala   (Kovala dışındaki tüm durumlardan, Araştır dahil)</text>
+  <path d="M725,37 H940 V490 H917" fill="none" stroke="#c62828" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#okKirmizi)"/>
+
+  <!-- Start -->
+  <circle cx="22" cy="300" r="7" fill="#333"/>
+  <text x="10" y="258" font-size="12" fill="#555">başlangıç</text>
+  <path d="M29,300 H43" stroke="#333" stroke-width="1.8" marker-end="url(#ok)"/>
+
+  <!-- Transitions from the course (black) -->
+  <!-- Ara -> Devriye -->
+  <path d="M745,300 H217" stroke="#333" stroke-width="1.8" marker-end="url(#ok)"/>
+  <text x="650" y="292" text-anchor="middle" font-size="12.5" fill="#333">vardı + 5 sn bakındı</text>
+  <!-- Kovala -> Ara -->
+  <path d="M830,458 V334" stroke="#333" stroke-width="1.8" marker-end="url(#ok)"/>
+  <text x="840" y="400" font-size="12.5" fill="#333">1 sn görmedi</text>
+  <!-- Devriye -> Kapıda Bekle -->
+  <path d="M170,332 L393,445" stroke="#333" stroke-width="1.8" marker-end="url(#ok)"/>
+  <text x="262" y="402" text-anchor="end" font-size="12.5" fill="#333">kapı kapalı + &lt; 2,5 m</text>
+  <!-- Ara -> Kapıda Bekle -->
+  <path d="M790,332 L567,445" stroke="#333" stroke-width="1.8" marker-end="url(#ok)"/>
+  <text x="698" y="402" font-size="12.5" fill="#333">kapı kapalı + &lt; 2,5 m</text>
+  <!-- Kapıda Bekle -> previous state (dashed, no fixed target) -->
+  <path d="M480,482 V528" stroke="#333" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#ok)"/>
+  <text x="480" y="546" text-anchor="middle" font-size="12.5" fill="#333">kapı açıldı → önceki durum (Devriye, Ara ya da <tspan fill="#8a2be2" font-weight="700">Araştır</tspan>)</text>
+
+  <!-- Transitions added by the homework (purple) -->
+  <!-- Devriye -> Araştır -->
+  <path d="M175,268 L393,166" stroke="#8a2be2" stroke-width="2.2" marker-end="url(#okMor)"/>
+  <text x="262" y="208" text-anchor="end" font-size="12.5" font-weight="700" fill="#8a2be2">ses duyuldu (&lt; 8 m)</text>
+  <!-- Araştır -> Devriye -->
+  <path d="M395,184 L217,298" stroke="#8a2be2" stroke-width="2.2" marker-end="url(#okMor)"/>
+  <text x="312" y="262" font-size="12.5" font-weight="700" fill="#8a2be2">vardı + 3 sn bakındı</text>
+  <!-- Ara -> Araştır -->
+  <path d="M785,268 L567,166" stroke="#8a2be2" stroke-width="2.2" marker-end="url(#okMor)"/>
+  <text x="698" y="208" font-size="12.5" font-weight="700" fill="#8a2be2">ses duyuldu (&lt; 8 m)</text>
+  <!-- Araştır -> Kapıda Bekle -->
+  <path d="M520,182 V416" stroke="#8a2be2" stroke-width="2.2" marker-end="url(#okMor)"/>
+  <text x="528" y="246" font-size="12.5" font-weight="700" fill="#8a2be2">kapı kapalı + &lt; 2,5 m</text>
+
+  <!-- States -->
+  <g>
+    <rect x="45" y="268" width="170" height="64" rx="12" fill="#dff3df" stroke="#2e7d32" stroke-width="2"/>
+    <text x="130" y="296" text-anchor="middle" font-size="17" font-weight="700" fill="#1b5e20">Devriye</text>
+    <text x="130" y="316" text-anchor="middle" font-size="12" fill="#333">yeşil · 2 m/sn · P0→P3</text>
+  </g>
+  <g>
+    <rect x="395" y="118" width="170" height="64" rx="12" fill="#efe0fc" stroke="#8a2be2" stroke-width="3"/>
+    <text x="480" y="146" text-anchor="middle" font-size="17" font-weight="700" fill="#5e1a9e">Araştır (yeni)</text>
+    <text x="480" y="166" text-anchor="middle" font-size="12" fill="#333">mor · 3 m/sn · 3 sn bakınır</text>
+  </g>
+  <g>
+    <rect x="745" y="268" width="170" height="64" rx="12" fill="#fff7c7" stroke="#b59400" stroke-width="2"/>
+    <text x="830" y="296" text-anchor="middle" font-size="17" font-weight="700" fill="#6d5a00">Ara</text>
+    <text x="830" y="316" text-anchor="middle" font-size="12" fill="#333">sarı · 5 sn bakınır</text>
+  </g>
+  <g>
+    <rect x="745" y="458" width="170" height="64" rx="12" fill="#fde0e0" stroke="#c62828" stroke-width="2"/>
+    <text x="830" y="486" text-anchor="middle" font-size="17" font-weight="700" fill="#8e0000">Kovala</text>
+    <text x="830" y="506" text-anchor="middle" font-size="12" fill="#333">kırmızı · 4 m/sn</text>
+  </g>
+  <g>
+    <rect x="395" y="418" width="170" height="64" rx="12" fill="#ececec" stroke="#757575" stroke-width="2"/>
+    <text x="480" y="446" text-anchor="middle" font-size="17" font-weight="700" fill="#424242">Kapıda Bekle</text>
+    <text x="480" y="466" text-anchor="middle" font-size="12" fill="#333">gri · ajan durur</text>
+  </g>
+
+  <!-- In-state details and legend -->
+  <rect x="20" y="562" width="920" height="40" rx="6" fill="#f6f6f6" stroke="#ddd"/>
+  <text x="34" y="579" font-size="12" fill="#333"><tspan font-weight="700">Geçiş olmayanlar:</tspan> Devriye'de noktaya varmak → sıradaki nokta · Araştır'da yeni ses → hedef ve süre yenilenir · Kovala ve Kapıda Bekle'de ses → yok sayılır</text>
+  <text x="34" y="595" font-size="12" fill="#333"><tspan fill="#8a2be2" font-weight="700">Mor oklar:</tspan> ödevde eklenen geçişler · <tspan fill="#c62828" font-weight="700">kesikli kırmızı:</tspan> global kural · <tspan font-weight="700">kesikli siyah:</tspan> sabit hedefi olmayan dönüş (RevertToPreviousState)</text>
+</svg>

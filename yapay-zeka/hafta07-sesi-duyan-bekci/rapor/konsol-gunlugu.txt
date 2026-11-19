@@ -1,0 +1,61 @@
+[0.0 sn] - → Devriye
+[Test 0.0 sn] Unity 6000.6.7f1, pencere 1200x900
+[Test 0.0 sn] Ayarlar: duyma 8 m, araştırma bakınma 3 sn, hız 3 m/sn, gözden kaybetme 1 sn, arama bakınma 5 sn
+[Test 1.0 sn] 1) Uzak ses: oyuncu bekçiden 8 m'den uzakta N'ye basıyor
+[1.0 sn] Oyuncu ses çıkardı: (1.5; 1.5)
+[1.0 sn] Ses 12.5 m uzakta, 8 m sınırının dışında: duyulmadı (Devriye)
+[Test 1.3 sn] TAMAM: 8 m'den uzak ses duyulmadı, bekçi Devriye'de kaldı
+[Test 1.3 sn] 2) Devriye'de yakın ses: bekçi U'nun üst kolunun kuzeyinde batıya yürürken oyuncu U'nun içinde N'ye basıyor
+[Test 14.7 sn] Bekçi (12.0; 17.3), ses noktası (9.5; 11.5), arada duvar: True, bekçi oyuncuyu görüyor mu: False
+[14.7 sn] Oyuncu ses çıkardı: (9.5; 11.5)
+[14.7 sn] Ses duyuldu (6.3 m, Devriye durumunda)
+[14.7 sn] Devriye → Araştır
+[Test 14.7 sn] TAMAM: Devriye → Araştır
+[Test 15.4 sn] Ekran görüntüsü: 01-devriye-arastir.png (durum Araştır)
+[Test 20.0 sn] Ekran görüntüsü: 02-arastir-bakinma.png (durum Araştır)
+[21.7 sn] Araştır → Devriye
+[Test 21.7 sn] TAMAM: 3 sn bakındıktan sonra Araştır → Devriye (bakınma 3.0 sn)
+[Test 23.2 sn] 3) Kovala'da ses: oyuncu bekçinin önüne çıkıyor, sonra N'ye basıyor
+[23.2 sn] Devriye → Kovala
+[23.7 sn] Oyuncu ses çıkardı: (4.9; 12.8)
+[23.7 sn] Ses duyuldu (0.4 m) ama Kovala durumunda: görmezden gelindi
+[Test 23.7 sn] Ekran görüntüsü: 04-kovala-ses-yok.png (durum Kovala)
+[Test 23.7 sn] TAMAM: Kovala'da ses görmezden gelindi
+[24.7 sn] Kovala → Ara
+[Test 24.7 sn] TAMAM: Oyuncu 1 sn görünmeyince Kovala → Ara
+[Test 25.5 sn] 4) Ara'da ses: oyuncu bekçinin arkasında, görüş konisinin dışında N'ye basıyor
+[Test 25.5 sn] Ses noktası (5.0; 9.8), uzaklık 3.0 m, görüyor mu: False
+[25.5 sn] Oyuncu ses çıkardı: (5.0; 9.8)
+[25.5 sn] Ses duyuldu (3.0 m, Ara durumunda)
+[25.5 sn] Ara → Araştır
+[Test 25.5 sn] TAMAM: Ara → Araştır
+[Test 26.1 sn] Ekran görüntüsü: 05-ara-arastir.png (durum Araştır)
+[Test 26.1 sn] Araştır'dayken ikinci ses (3.7; 14.2)
+[26.1 sn] Oyuncu ses çıkardı: (3.7; 14.2)
+[26.1 sn] Ses duyuldu (3.0 m), zaten Araştır'da: hedef ve bakınma süresi yenilendi
+[Test 26.1 sn] TAMAM: Araştır'da yeni ses: durum değişmedi, hedef yenilendi
+[Test 26.9 sn] 5) Araştır'da oyuncu görünüyor: global kural
+[26.9 sn] Araştır → Kovala
+[Test 26.9 sn] TAMAM: Araştır → Kovala (global kural)
+[Test 26.9 sn] TAMAM: Araştır.Exit hızı geri aldı, Kovala.Enter 4 m/sn yaptı (hız 4.0)
+[Test 27.2 sn] Ekran görüntüsü: 03-arastir-kovala.png (durum Kovala)
+[28.2 sn] Kovala → Ara
+[33.2 sn] Ara → Devriye
+[Test 33.2 sn] TAMAM: Devriye hızı 2.0 m/sn
+[Test 33.2 sn] 6) Araştır'da kapı: bekçi P1'de, ses U'nun sırt duvarının doğusunda; bekçi kapıya yaklaşınca K
+[Test 37.7 sn] Ses noktası (15.5; 7.0), uzaklık 6.8 m, arada duvar: True
+[37.7 sn] Oyuncu ses çıkardı: (15.5; 7.0)
+[37.7 sn] Ses duyuldu (6.8 m, Devriye durumunda)
+[37.7 sn] Devriye → Araştır
+[Test 37.7 sn] TAMAM: Devriye → Araştır (kapının öbür yanındaki ses)
+[Test 38.0 sn] Bekçi kapıya 2.3 m uzakta: K
+[38.1 sn] Araştır → KapıdaBekle
+[Test 38.1 sn] TAMAM: Araştır → KapıdaBekle
+[Test 40.6 sn] TAMAM: Kapıda beklerken ajan durdu (isStopped)
+[Test 40.6 sn] Ekran görüntüsü: 06-arastir-kapida-bekle.png (durum KapıdaBekle)
+[40.6 sn] KapıdaBekle → Araştır
+[Test 40.6 sn] TAMAM: Kapı açıldı: KapıdaBekle → Araştır (önceki durum)
+[Test 41.8 sn] Ekran görüntüsü: 07-kapidan-sonra-arastir.png (durum Araştır)
+[45.9 sn] Araştır → Devriye
+[Test 45.9 sn] TAMAM: Ses noktasında bakındı, Araştır → Devriye
+[Test 45.9 sn] Bitti: 15 kontrol tamam, 0 hata

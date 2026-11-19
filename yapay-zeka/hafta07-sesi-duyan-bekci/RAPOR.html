@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Hafta 7 Ödevi – Sesi Duyan Bekçi</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin: 0; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 10.5pt; line-height: 1.42; color: #1d1d1f; background: #fff; }
+  .page { width: 794px; padding: 44px 52px 40px; }
+  h1 { font-size: 19pt; margin: 0 0 2px; }
+  .meta { color: #555; font-size: 9.5pt; margin-bottom: 14px; border-bottom: 2px solid #8a2be2; padding-bottom: 8px; }
+  h2 { font-size: 12.5pt; margin: 18px 0 6px; color: #5e1a9e; }
+  p { margin: 4px 0 8px; }
+  table { border-collapse: collapse; width: 100%; margin: 6px 0 10px; font-size: 9.5pt; }
+  th, td { border: 1px solid #c9c9cf; padding: 4px 7px; text-align: left; vertical-align: top; }
+  th { background: #f1ecf8; }
+  tr.yeni td { background: #f6effe; }
+  tr.yeni td:first-child { border-left: 3px solid #8a2be2; }
+  .etiket { display: inline-block; font-size: 8pt; font-weight: 700; color: #fff; background: #8a2be2; border-radius: 3px; padding: 0 4px; margin-left: 4px; }
+  .etiket.d { background: #777; }
+  code { font-family: Menlo, Consolas, monospace; font-size: 8.8pt; background: #f4f4f6; padding: 0 3px; border-radius: 3px; }
+  pre { font-family: Menlo, Consolas, monospace; font-size: 8.1pt; line-height: 1.32; background: #f7f7f9; border: 1px solid #e1e1e6; border-radius: 4px; padding: 8px 10px; margin: 6px 0 10px; white-space: pre-wrap; }
+  pre .g { color: #8a2be2; font-weight: 700; }
+  pre .k { color: #888; }
+  img { max-width: 100%; display: block; }
+  .diyagram { border: 1px solid #e1e1e6; border-radius: 4px; margin: 6px 0 4px; }
+  .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; margin: 6px 0; }
+  .shots.three { grid-template-columns: 1fr 1fr 1fr; }
+  figure { margin: 0; break-inside: avoid; }
+  figcaption { font-size: 8.8pt; color: #444; margin-top: 3px; }
+  .not { font-size: 9pt; color: #555; }
+  .break { break-before: page; }
+  ul { margin: 4px 0 8px; padding-left: 20px; }
+  li { margin: 2px 0; }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Hafta 7 Ödevi: Sesi Duyan Bekçi</h1>
+  <div class="meta">Dijital Oyunlarda Yapay Zekâ · Sonlu Durum Makineleri (FSM) · Öğrenci: ________________ · No: __________ · Unity 6.6, AI Navigation 2.0.16, Input System 1.20.1</div>
+
+  <p>Derste kurulan dört durumlu bekçiye (Devriye, Kovala, Ara, Kapıda Bekle) beşinci bir durum, <b>Araştır</b>, eklendi. Oyuncu <b>N</b> tuşuna basınca bulunduğu yerde ses çıkar. Bekçi sese 8 m'den yakınsa, Devriye ya da Ara durumundaysa sesin geldiği noktaya gider, 3 sn bakınır ve devriyeye döner. Sahne 4–6. haftaların 20×20 alanıdır: batıya açık U engeli ve U'nun sırt duvarındaki 2 m'lik boşlukta 6. haftanın kayan kapısı (K). Devriye P0 → P1 → P2 → P3 döngüsü kapıdan geçer.</p>
+
+  <table>
+    <tr><th style="width:42%">Ödev kuralı</th><th>Nasıl yapıldı</th></tr>
+    <tr><td>N tuşu, Input Actions'ta <code>MakeNoise</code> eylemi; eski Input Manager yok</td><td><code>InputSystem_Actions.inputactions</code> içinde <code>MakeNoise</code> (Button, <code>&lt;Keyboard&gt;/n</code>). <code>PlayerNoise.cs</code> <code>InputSystem.actions.FindAction("MakeNoise")</code> ile okur. Proje ayarı: Active Input Handling = Input System Package (New).</td></tr>
+    <tr><td>8 m'den yakınsa duyar, duvarlar sesi kesmez</td><td><code>Guard.HearNoise</code> yatay mesafeyi <code>hearingDistance = 8</code> ile karşılaştırır. Işın atılmaz, yani duvar hesaba girmez.</td></tr>
+    <tr><td>Devriye ya da Ara'da duyarsa Araştır'a geçer; Kovala'da görmezden gelir</td><td><code>HearNoise</code> yalnızca <code>FSM.IsIn(Patrol) || FSM.IsIn(Search)</code> ise <code>ChangeState(Investigate)</code> der. Kovala'da (ve kapalı kapı önündeki Kapıda Bekle'de) yalnızca günlüğe yazar.</td></tr>
+    <tr><td>Ses noktasına gider, 3 sn bakınır, Devriye'ye döner</td><td><code>GuardInvestigate</code>: Enter hedefi kurar, Execute vardıktan sonra 90°/sn dönerek <code>investigateTime = 3</code> sn sayar, süre bitince <code>ChangeState(Patrol)</code>.</td></tr>
+    <tr><td>Araştır'da oyuncuyu görürse Kovala, ek kod yok</td><td><code>GuardGlobal</code> değişmedi. Kovala dışındaki her durumda olduğu gibi Araştır'dan da Kovala'ya geçirir.</td></tr>
+    <tr><td>Renk dört renkten farklı</td><td>Mor (0,62; 0,22; 0,95). Yeşil, kırmızı, sarı ve griden farklı.</td></tr>
+  </table>
+
+  <h2>1. Araştır durumunun aşamaları</h2>
+  <table>
+    <tr><th style="width:15%">Durum</th><th style="width:31%">Enter (bir kez)</th><th style="width:31%">Execute (her kare)</th><th>Exit (bir kez)</th></tr>
+    <tr class="yeni"><td><b>Araştır</b></td><td>Mor ol, hızı 3 m/sn yap, ses noktasını hedef al, bakınma sayacını 3 sn'ye kur</td><td>Kapı engel mi? → Kapıda Bekle. Vardıysan dönerek bakın; süre dolduysa → Devriye</td><td>Hızı 2 m/sn'ye geri al</td></tr>
+  </table>
+  <p>Enter'da değiştirilen tek ayar hızdır, Exit onu geri alır (5.2'deki kural). Araştır'dan Kovala'ya geçişte bu sıra önemlidir: önce <code>Araştır.Exit</code> hızı 2'ye indirir, sonra <code>Kovala.Enter</code> 4'e çıkarır. Testte Kovala'daki hız 4,0, devriyeye dönünce 2,0 ölçüldü. Bakınma sayacı durum nesnesinin içinde tutulur (6.5). Sayaç her Enter'da baştan kurulur, bu yüzden Kapıda Bekle'den Araştır'a dönen bekçi 3 sn'yi baştan sayar.</p>
+  <pre><span class="k">// Guard.cs (kısaltılmış): mesafe ve durum kontrolü burada, geçiş normal ChangeState</span>
+public void HearNoise(Vector3 position)
+{
+    Vector3 d = position - transform.position; d.y = 0f;
+    if (d.magnitude &gt; hearingDistance) return;             <span class="k">// 8 m dışında: duymadı</span>
+    if (FSM.IsIn(Investigate))                             <span class="k">// zaten Araştır'da: geçiş değil,</span>
+    { noisePosition = position; Investigate.Retarget(this); return; }   <span class="k">// yeni hedef</span>
+    if (!FSM.IsIn(Patrol) &amp;&amp; !FSM.IsIn(Search)) return;    <span class="k">// Kovala, Kapıda Bekle: yok say</span>
+    noisePosition = position;
+    FSM.ChangeState(Investigate);
+}</pre>
+  <p class="not">Araştır'dayken ikinci bir ses gelirse bu bir geçiş sayılmaz. <code>ChangeState</code> aynı duruma geçişi zaten reddeder (<code>next == Current</code>). Bekçi durumunu korur, yalnızca hedefi ve bakınma süresi yenilenir. Bu, devriye noktasına varınca sıradaki noktayı hedef almaya (3.2) benzer.</p>
+
+  <h2 class="break">2. Beş durumlu durum diyagramı</h2>
+  <img class="diyagram" src="rapor/durum-diyagrami.svg" alt="Beş durumlu durum diyagramı">
+  <p class="not">Kaynak: <code>rapor/durum-diyagrami.svg</code>. Her ok <code>GuardStates.cs</code> içindeki bir <code>ChangeState</code> satırına karşılık gelir; global ok <code>GuardGlobal</code>'e, kesikli dönüş <code>RevertToPreviousState</code>'e.</p>
+
+  <h2>3. Geçiş tablosu</h2>
+  <table>
+    <tr><th style="width:24%">Mevcut durum</th><th>Koşul</th><th style="width:28%">Sonraki durum</th></tr>
+    <tr><td>Herhangi biri (Kovala hariç)<span class="etiket d">kapsam genişledi</span></td><td>Oyuncu görüldü (global kural)</td><td>Kovala</td></tr>
+    <tr><td>Devriye</td><td>Kapı kapalı ve kapıya 2,5 m'den yakın</td><td>Kapıda Bekle</td></tr>
+    <tr class="yeni"><td>Devriye<span class="etiket">yeni</span></td><td>Ses duyuldu (sese 8 m'den yakın)</td><td>Araştır</td></tr>
+    <tr><td>Kovala</td><td>Oyuncu 1 sn'den uzun süredir görünmüyor</td><td>Ara</td></tr>
+    <tr><td>Ara</td><td>Kapı kapalı ve kapıya 2,5 m'den yakın</td><td>Kapıda Bekle</td></tr>
+    <tr class="yeni"><td>Ara<span class="etiket">yeni</span></td><td>Ses duyuldu (sese 8 m'den yakın)</td><td>Araştır</td></tr>
+    <tr><td>Ara</td><td>Son görülen noktaya vardı ve 5 sn bakındı</td><td>Devriye</td></tr>
+    <tr class="yeni"><td>Araştır<span class="etiket">yeni</span></td><td>Kapı kapalı ve kapıya 2,5 m'den yakın</td><td>Kapıda Bekle</td></tr>
+    <tr class="yeni"><td>Araştır<span class="etiket">yeni</span></td><td>Ses noktasına vardı ve 3 sn bakındı</td><td>Devriye</td></tr>
+    <tr><td>Kapıda Bekle<span class="etiket d">değişti</span></td><td>Kapı açıldı</td><td>Önceki durum (Devriye, Ara ya da <b>Araştır</b>)</td></tr>
+  </table>
+  <p class="not">Geçiş olmayan durumlar: Kovala'da ses → görmezden gelinir (bekçi oyuncuyu zaten görüyor). Kapıda Bekle'de ses → görmezden gelinir (kapalı kapının önünde bekliyor; ödev yalnızca Devriye ve Ara'yı sayıyor). Araştır'da yeni ses → durum aynı, hedef ve süre yenilenir. Araştır'a kapı satırı ödev metninde yoktu. Ama Araştır da yürüyen bir durum; bu satır olmasa bekçi kapalı kapıya sürtünüp kalırdı. Bu yüzden Devriye ve Ara'daki satır Araştır'a da eklendi.</p>
+
+  <h2 class="break">4. Deneme: konsol günlüğü ve ekran görüntüleri</h2>
+  <p>Deneme oyunun derlenmiş sürümünde yapıldı. N ve K tuşları sanal bir klavye ile Input System'e gönderildi, yani gerçek <code>MakeNoise</code> ve <code>ToggleDoor</code> eylemleri çalıştı. Oyuncunun yeri tekrarlanabilirlik için betikle değiştirildi. Altı adımda 15 kontrolün 15'i geçti. Aşağıda FSM ve ses satırları var; test betiğinin satırlarıyla birlikte tam günlük <code>rapor/konsol-gunlugu.txt</code> dosyasında.</p>
+<pre>[0.0 sn] - → Devriye
+<span class="k">1) uzak ses</span>
+[1.0 sn] Oyuncu ses çıkardı: (1.5; 1.5)
+[1.0 sn] Ses 12.5 m uzakta, 8 m sınırının dışında: duyulmadı (Devriye)
+<span class="k">2) Devriye'de ses: oyuncu U'nun içinde, bekçi üst kolun kuzeyinde (arada duvar var)</span>
+[14.7 sn] Oyuncu ses çıkardı: (9.5; 11.5)
+[14.7 sn] Ses duyuldu (6.3 m, Devriye durumunda)
+<span class="g">[14.7 sn] Devriye → Araştır</span>
+<span class="g">[21.7 sn] Araştır → Devriye</span>                 <span class="k">(vardı, 3,0 sn bakındı)</span>
+<span class="k">3) Kovala'da ses</span>
+[23.2 sn] Devriye → Kovala
+[23.7 sn] Oyuncu ses çıkardı: (4.9; 12.8)
+[23.7 sn] Ses duyuldu (0.4 m) ama Kovala durumunda: görmezden gelindi
+[24.7 sn] Kovala → Ara
+<span class="k">4) Ara'da ses, ardından Araştır'da ikinci ses</span>
+[25.5 sn] Oyuncu ses çıkardı: (5.0; 9.8)
+[25.5 sn] Ses duyuldu (3.0 m, Ara durumunda)
+<span class="g">[25.5 sn] Ara → Araştır</span>
+[26.1 sn] Oyuncu ses çıkardı: (3.7; 14.2)
+[26.1 sn] Ses duyuldu (3.0 m), zaten Araştır'da: hedef ve bakınma süresi yenilendi
+<span class="k">5) Araştır'da oyuncu görünüyor</span>
+<span class="g">[26.9 sn] Araştır → Kovala</span>                  <span class="k">(global kural)</span>
+[28.2 sn] Kovala → Ara
+[33.2 sn] Ara → Devriye
+<span class="k">6) Araştır'da kapı</span>
+[37.7 sn] Oyuncu ses çıkardı: (15.5; 7.0)
+[37.7 sn] Ses duyuldu (6.8 m, Devriye durumunda)
+<span class="g">[37.7 sn] Devriye → Araştır</span>
+<span class="g">[38.1 sn] Araştır → KapıdaBekle</span>             <span class="k">(K, bekçi kapıya 2,3 m)</span>
+<span class="g">[40.6 sn] KapıdaBekle → Araştır</span>             <span class="k">(K, önceki duruma dönüş)</span>
+<span class="g">[45.9 sn] Araştır → Devriye</span></pre>
+
+  <div class="shots three">
+    <figure><img src="screenshots/01-devriye-arastir.png"><figcaption><b>1.</b> Devriye → Araştır: bekçi U'nun dışındayken içeriden gelen sesi duvarın arkasından duydu. Halka 8 m'lik duyma sınırı, açık mavi çizgi bekçinin yolu.</figcaption></figure>
+    <figure><img src="screenshots/02-arastir-bakinma.png"><figcaption><b>2.</b> Araştır: bekçi ses noktasına vardı, dönerek bakınıyor (kalan 1,7 sn). Oyuncu 12,8 m uzakta, görüş konisinin dışında.</figcaption></figure>
+    <figure><img src="screenshots/03-arastir-kovala.png"><figcaption><b>3.</b> Araştır → Kovala: oyuncu bekçinin önüne çıktı; global kural geçirdi (önceki: Araştır). Sarı halka son görülen nokta.</figcaption></figure>
+  </div>
+  <div class="shots three">
+    <figure><img src="screenshots/05-ara-arastir.png"><figcaption>Ek: Ara → Araştır. Ses bekçinin arkasından geldi (3,0 m).</figcaption></figure>
+    <figure><img src="screenshots/06-arastir-kapida-bekle.png"><figcaption>Ek: Araştır → Kapıda Bekle. Mor halka sesin geldiği nokta; kapı açılınca bekçi Araştır'a döndü.</figcaption></figure>
+  </div>
+
+  <h2 class="break">5. Kısa cevap: Araştır yerine Ara kullanılabilir miydi?</h2>
+  <p><b>Kullanılabilirdi.</b> Ses gelince <code>lastSeenPosition = sesin yeri</code> yapıp Ara'ya geçmek yeterliydi. Ara zaten "bir noktaya git, bakın, devriyeye dön" davranışını yapıyor.</p>
+  <p><b>Avantaj:</b> Yeni sınıf yazılmaz, durum sayısı dörtte kalır. Diyagram ve geçiş tablosu sade kalır: 7.1'deki formüle göre olası yönlü geçiş sayısı 5 durumda 5 × 4 = 20, 4 durumda 4 × 3 = 12. Kapı kuralı ve dönüş kuralı Ara'da zaten yazılı olduğu için Araştır'da tekrar edilmezdi.</p>
+  <p><b>Dezavantaj:</b> İki farklı anlam aynı durumda karışır. <code>lastSeenPosition</code> artık "oyuncunun görüldüğü yer" değildir; sarı gizmo ve sonraki Kovala → Ara geçişi yanlış veriyle çalışabilir. Ödevin istediği farklı süre (3 sn / 5 sn) ve farklı renk için Ara'nın içine "sesten mi geldim?" bayrağı gerekir; 2. bölümdeki bool sorunu durumun içine geri gelir. Ayrıca bizim <code>StateMachine</code> sınıfına özgü bir hata çıkar: Ara'dayken ses duyulunca istenen geçiş Ara → Ara olur. <code>ChangeState</code> <code>next == Current</code> olduğu için bunu reddeder. Enter çalışmaz, bakınma süresi sıfırlanmaz, hedef değişmez; bekçi sesi duymamış gibi davranır. Ayrı bir Araştır durumuyla bu sorun hiç oluşmaz.</p>
+
+  <h2>Dosyalar</h2>
+  <ul>
+    <li><code>Assets/Scripts/Guard/GuardStates.cs</code>: beş durum + global durum; <code>GuardInvestigate</code> ödevin yeni sınıfı.</li>
+    <li><code>Assets/Scripts/Guard/Guard.cs</code>: <code>HearNoise</code>, <code>hearingDistance</code>, <code>investigateTime</code>, <code>investigateSpeed</code>, <code>noisePosition</code>.</li>
+    <li><code>Assets/Scripts/PlayerNoise.cs</code>: ses betiği (N → <code>MakeNoise</code> → <code>guard.HearNoise</code>); <code>Assets/InputSystem_Actions.inputactions</code>.</li>
+    <li><code>Assets/Scripts/FSM/State.cs</code>, <code>StateMachine.cs</code>: ders notundaki haliyle, değişiklik yok. <code>SlidingDoor.cs</code>: <code>IsOpen</code> satırı (8.6).</li>
+    <li><code>rapor/durum-diyagrami.svg</code> (.png), <code>rapor/konsol-gunlugu.txt</code>, <code>screenshots/01…07</code>.</li>
+  </ul>
+</div>
+</body>
+</html>

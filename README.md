@@ -13,6 +13,7 @@ Weekly practice work and homework for two courses (Fall 2026–2027). Every assi
 | 4 | **Dağ Yolu** – A* on a terrain where slope becomes cost | Unity | [`yapay-zeka/hafta04-dag-yolu`](yapay-zeka/hafta04-dag-yolu) |
 | 5 | **Köşe Noktaları** – waypoint graph with corner (visibility) points, ping-pong patrol | Unity | [`yapay-zeka/hafta05-kose-noktalari`](yapay-zeka/hafta05-kose-noktalari) |
 | 6 | **Kestirme mi, Güvenli Yol mu?** – NavMesh area costs, links and carving obstacles | Unity + PDF report | [`yapay-zeka/hafta06-kestirme-guvenli-yol`](yapay-zeka/hafta06-kestirme-guvenli-yol) |
+| 7 | **Sesi Duyan Bekçi** – FSM guard (State pattern) with a fifth "Araştır" state triggered by noise | Unity + PDF report | [`yapay-zeka/hafta07-sesi-duyan-bekci`](yapay-zeka/hafta07-sesi-duyan-bekci) |
 | Extra | Patrolling guards with alarm and chase (FSM) | Unity | [`yapay-zeka/ek-devriye-alarm`](yapay-zeka/ek-devriye-alarm) |
 
 ## DOT311 Mobil Uygulama Geliştirme I (React Native + Expo)
@@ -43,9 +44,13 @@ Weekly practice work and homework for two courses (Fall 2026–2027). Every assi
 |---|---|
 | <img src="yapay-zeka/hafta04-dag-yolu/screenshots/02b-yollar-k0-k2-k8.png" width="380"> | <img src="yapay-zeka/hafta05-kose-noktalari/screenshots/06-halka-kose-yol-yumusatilmis.png" width="380"> |
 
-| Week 6 – Routes A–D | Extra – Alarm and chase |
+| Week 6 – Routes A–D | Week 7 – Guard hears a noise (Araştır) |
 |---|---|
-| <img src="yapay-zeka/hafta06-kestirme-guvenli-yol/screenshots/genel-rotalar.png" width="380"> | <img src="yapay-zeka/ek-devriye-alarm/screenshots/03-alarm-chase.png" width="380"> |
+| <img src="yapay-zeka/hafta06-kestirme-guvenli-yol/screenshots/genel-rotalar.png" width="380"> | <img src="yapay-zeka/hafta07-sesi-duyan-bekci/screenshots/01-devriye-arastir.png" width="380"> |
+
+| Extra – Alarm and chase | |
+|---|---|
+| <img src="yapay-zeka/ek-devriye-alarm/screenshots/03-alarm-chase.png" width="380"> | |
 
 ### Mobile
 
@@ -59,6 +64,6 @@ Weekly practice work and homework for two courses (Fall 2026–2027). Every assi
 
 ## Running
 
-- **Unity projects:** open the folder in Unity Hub with Unity **6000.6.8f1**, then open the scene listed in the project's README.
+- **Unity projects:** open the folder in Unity Hub with Unity **6000.6.8f1** (week 7 was saved with 6000.6.7f1 and opens in either), then open the scene listed in the project's README.
 - **Expo projects:** `npm install` then `npx expo start` (scan the QR code with Expo Go, or press `w` for web).
 - **.NET projects:** `dotnet run` in the project folder (.NET 10 SDK).
